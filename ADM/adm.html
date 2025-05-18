@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="adm.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="barra">
+    <a href="/Menu-inicial/Menu.html" class="logo-link">
+        <div class="logo">V</div>
+      </a>
+    <input type="text" placeholder="Pesquisar eventos, shows, teatros, turismo..." class="search-bar">
+    <i class="fa-solid fa-calendar"></i>
+    <div class="tempo">
+      <input type="date" class="date-input" id="date1">
+      <span>-</span>
+      <input type="date" class="date-input" id="date2">
+    </div>
+    <i class="fa-solid fa-road"></i>
+    <select class="filtro">
+      <option>Estado</option>
+    </select>
+    <select class="filtro">
+      <option>Município</option>
+    </select>
+    <i class="fa-solid fa-filter"></i>
+    <select class="filtro">
+      <option>Tipo</option>
+    </select>
+      <button id="btnCategoria" class="filtro-button">Categoria</button>
+    <a href="/Mapa">
+      <button class="map-btn" type="button"><i class="fa-regular fa-image"></i> Mapa</button>
+    </a>
+    <button type="button" class="user-btn" onclick="toggleSidebar()">
+      <i class="fa-solid fa-bars icon-space"></i>
+      <i class="fa-regular fa-user"></i>
+    </button>
+  </header>
+  <aside id="sidebar" class="sidebar">
+    <h2>Nome do Usuario</h2>
+    <ul>
+      <li><a href="/Menu-inicial/Menu.html">Inicio</a></li>
+      <li><a href="#">Perfil</a></li>
+      <li><a href="#">Configurações</a></li>
+      <li><a href="#">Desconectar</a></li>
+    </ul>
+  </aside>
+
+  <div id="overlay" class="overlay" style="display: none;"></div>
+
+  <div class="escondida" id="menuCategoria">
+    <h2 class="tcategoria"> - Categorias</h2>
+    <p class="categoria">Festas e Shows</p>
+    <p class="categoria">Passeios</p>
+    <p class="categoria">Restaurantes</p>
+    <p class="categoria">Stand Up e Comédia</p>
+    <p class="categoria">Esportes</p>
+    <p class="categoria">Cursos e Workshop</p>
+    <p class="categoria">Teatros e Espetáculos</p>
+    <p class="categoria">Infantil</p>
+    <p class="categoria">Congressos e Palestras</p>
+  </div>
+  <main>
+      <div class="container">
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="conta">Conta</button>
+                <button class="tab-btn" data-tab="painel">Painel de controle</button>
+                <button class="tab-btn" data-tab="cadastros">Cadastros</button>
+                <button class="tab-btn" data-tab="relatorio">Emitir relatório</button>
+            </div>
+            
+            <div id="conta" class="tab-content active">
+                <h2 class="profile-heading">Configurações de perfil</h2>
+                <p class="profile-subheading">Alterar detalhes de identificação da sua conta</p>
+                
+            <form action="#" method="post">
+                 <div class="form-group">
+                    <label class="form-label">Usuário</label>
+                    <div class="form-input-container">
+                        <input type="text" class="form-input" value="User_test" readonly>
+                        <button class="edit-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">E-mail</label>
+                    <div class="form-input-container">
+                        <input type="email" class="form-input" value="vibreusertest@gmail.com" readonly>
+                        <button class="edit-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Telefone</label>
+                    <div class="form-input-container">
+                        <input type="tel" class="form-input" value="**********" readonly>
+                        <button class="edit-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Senha</label>
+                    <div class="form-input-container">
+                        <p class="password-text">
+                            <a href="#/alterar-senha" class="password-link">Altere sua senha</a>. Aumente sua segurança com uma senha forte.
+                        </p>
+                    </div>
+                </div>
+            </form> 
+            <div class="divider"></div>
+        </div>
+            <div id="painel" class="tab-content">
+                <h2 class="profile-heading">Cadastros</h2>
+                <p class="profile-subheading">Cadastros de Eventos e pontos turísticos</p>
+    
+    <div class="search-container">
+        <div class="search-input-wrapper">
+            <input type="text" class="search-input" placeholder="Pesquisar rápido...">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+    </div>
+    
+    <div class="tabs-secondary">
+        <button class="tab-secondary-btn active" data-tab="cidades">Eventos</button>
+        <button class="tab-secondary-btn" data-tab="pontos">Pontos turísticos</button>
+    </div>
+    
+    <div id="cidades" class="tab-secondary-content active">
+        <div class="table-container">
+            <form action="#" method="post">
+                <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome da Cidade</th>
+                        <th>Estado</th>
+                        <th>Status</th>
+                        <th>Editar</th>
+                        <th>Aprovar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Juazeiro do Norte</td>
+                        <td>CE</td>
+                        <td><span class="status-badge analysis">Em Análise</span></td>
+                        <td>
+                            <button class="action-btn edit-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                </svg>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="action-btn approve-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="action-btn delete-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Rio de Janeiro</td>
+                        <td>RJ</td>
+                        <td><span class="status-badge analysis">Em Análise</span></td>
+                        <td>
+                            <button class="action-btn edit-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                </svg>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="action-btn approve-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="action-btn delete-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </form>
+        </div>
+        <div class="pagination">
+            <button class="pagination-btn prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <span class="pagination-info">01/01</span>
+            <button class="pagination-btn next">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <div id="pontos" class="tab-secondary-content">
+        <div class="table-container">
+            <form action="#" method="post">
+                <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome do ponto</th>
+                        <th>Cidade</th>
+                        <th>Status</th>
+                        <th>Editar</th>
+                        <th>Aprovar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Padre Cícero</td>
+                        <td>Juazeiro do Norte</td>
+                        <td><span class="status-badge analysis">Em Análise</span></td>
+                        <td>
+                            <button class="action-btn edit-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                </svg>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="action-btn approve-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="action-btn delete-action">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </form>
+        </div>
+        <div class="pagination">
+            <button class="pagination-btn prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <span class="pagination-info">01/01</span>
+            <button class="pagination-btn next">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+<div id="cadastros" class="tab-content">
+    <h2 class="profile-heading">Formulário de Cadastro</h2>
+    <p class="profile-subheading">Cadastre novos Eventos e pontos turísticos</p>
+    
+    <div class="tabs-secondary">
+        <button class="tab-secondary-btn active" data-tab="form-cidades">Evento</button>
+        <button class="tab-secondary-btn" data-tab="form-pontos">Pontos turísticos</button>
+    </div>
+    
+    <div id="form-cidades" class="tab-secondary-content active">
+        <div class="form-container">
+            <form id="cidade-form" class="cadastro-form" action="#" method="post">
+                <div class="form-row">
+                    <label for="nome-cidade" class="cadastro-label">Nome da Cidade</label>
+                    <input type="text" id="nome-cidade" class="cadastro-input" placeholder="Digite o nome da cidade">
+                </div>
+                
+                <div class="form-row">
+                    <label for="estado-cidade" class="cadastro-label">Estado</label>
+                    <input type="text" id="estado-cidade" class="cadastro-input" placeholder="Digite o estado">
+                </div>
+                
+                <div class="form-row">
+                    <label for="descricao-cidade" class="cadastro-label">Descrição</label>
+                    <input type="text" id="descricao-cidade" class="cadastro-input" placeholder="Digite uma descrição sobre a cidade">
+                </div>
+                
+                <div class="form-row">
+                    <button type="submit" class="btn-cadastrar">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="form-pontos" class="tab-secondary-content">
+        <div class="form-container">
+            <form id="ponto-form" class="cadastro-form" action="#" method="post">
+                <div class="form-row">
+                    <label for="nome-cidade-ponto" class="cadastro-label">Nome da Cidade</label>
+                    <input type="text" id="nome-cidade-ponto" class="cadastro-input" placeholder="Digite o nome da cidade">
+                </div>
+                
+                <div class="form-row">
+                    <label for="ponto-turistico" class="cadastro-label">Ponto Turístico</label>
+                    <input type="text" id="ponto-turistico" class="cadastro-input" placeholder="Digite o nome do ponto turístico">
+                </div>
+                
+                <div class="form-row">
+                    <label for="estado-ponto" class="cadastro-label">Estado</label>
+                    <input type="text" id="estado-ponto" class="cadastro-input" placeholder="Digite o estado">
+                </div>
+                
+                <div class="form-row">
+                    <label for="descricao-ponto" class="cadastro-label">Descrição</label>
+                    <input type="text" id="descricao-ponto" class="cadastro-input" placeholder="Digite uma descrição">
+                </div>
+                
+                <div class="form-row">
+                    <label for="endereco-ponto" class="cadastro-label">Endereço/Localização</label>
+                    <input type="text" id="endereco-ponto" class="cadastro-input" placeholder="Digite o endereço/localização">
+                </div>
+                
+                <div class="form-row">
+                    <label for="categoria-ponto" class="cadastro-label">Categoria</label>
+                    <select id="categoria-ponto" class="cadastro-input" multiple>
+                        <option value="festas-shows">Festas e Shows</option>
+                        <option value="passseio">Passeios</option>
+                        <option value="culinaria">Restaurantes</option>
+                        <option value="comedia">Stand Up e Comédia</option>
+                        <option value="sport">Esportes</option>
+                        <option value="curso">Cursos e Workshop</option>
+                        <option value="teatro">Teatros e Espetáculos</option>
+                        <option value="infatil">Infantil</option>
+                        <option value="palestras">Congressos e Palestras</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="horario-ponto" class="cadastro-label">Horário de Funcionamento</label>
+                    <input type="text" id="horario-ponto" class="cadastro-input" placeholder="Digite o horário de funcionamento">
+                </div>
+                
+                <div class="form-row">
+                    <label for="preco-ponto" class="cadastro-label">Preço/Entrada</label>
+                    <input type="text" id="preco-ponto" class="cadastro-input" placeholder="Digite o valor da entrada">
+                </div>
+                <div class="form-row">
+                    <label for="preco-ponto" class="cadastro-label">Longitude</label>
+                    <input type="number" id="preco-ponto" class="cadastro-input" placeholder="Digite a Longitude do local">
+                </div>
+                <div class="form-row">
+                    <label for="preco-ponto" class="cadastro-label">Latitude</label>
+                    <input type="number" id="preco-ponto" class="cadastro-input" placeholder="Digite a Latitude do local">
+                </div>
+                <div class="form-row">
+                    <label class="cadastro-label">Adicione as imagens em anexo.</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="imagens-ponto" multiple accept="image/*" class="file-input">
+                    </div>
+                    <div id="preview-container" class="image-preview-container"></div>
+                </div>
+                <div class="form-row">
+                    <button type="submit" class="btn-cadastrar">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+        <div id="relatorio" class="tab-content active">
+            <div class="relatorio-section">
+                <h2 class="profile-heading">Relatórios</h2>
+                <p class="profile-subheading">Emita relatórios detalhados sobre eventos ou pontos turísticos cadastrados.</p>
+                
+                <form action="#" method="post">
+                    <div class="relatorio-search-container">
+                            <div class="search-input-wrapper">
+                                <input type="text" class="search-input" placeholder="Pesquise relatórios...">
+                                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                            <button class="btn-exportar">Exportar relatório</button>
+                        </div>
+                        
+                        <div class="relatorio-filtros">
+                            <div class="filtro-group">
+                                <label class="filtro-label">Tipo de Relatório</label>
+                                <select class="filtro-select" id="tipo-relatorio">
+                                    <option value="">Selecione</option>
+                                    <option value="cidades">Cidades</option>
+                                    <option value="pontos">Pontos Turísticos</option>
+                                    <option value="eventos">Eventos</option>
+                                    <option value="visitas">Visitas</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filtro-group">
+                                <label class="filtro-label">Estado</label>
+                                <select class="filtro-select" id="estado-relatorio">
+                                    <option value="">Todos</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filtro-group">
+                                <label class="filtro-label">Período</label>
+                                <select class="filtro-select" id="periodo-relatorio">
+                                    <option value="">Todos</option>
+                                    <option value="7">Últimos 7 dias</option>
+                                    <option value="30">Últimos 30 dias</option>
+                                    <option value="90">Últimos 3 meses</option>
+                                    <option value="180">Últimos 6 meses</option>
+                                    <option value="365">Último ano</option>
+                                    <option value="custom">Personalizado</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filtro-group">
+                                <label class="filtro-label">Status</label>
+                                <select class="filtro-select" id="status-relatorio">
+                                    <option value="">Todos</option>
+                                    <option value="aprovado">Aprovado</option>
+                                    <option value="analise">Em Análise</option>
+                                    <option value="reprovado">Reprovado</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="datas-personalizadas" style="display: none; margin-top: 15px;">
+                            <div class="filtro-group" style="display: flex; flex-direction: row; gap: 15px;">
+                                <div>
+                                    <label class="filtro-label">Data inicial</label>
+                                    <input type="date" class="filtro-select" id="data-inicial">
+                                </div>
+                                <div>
+                                    <label class="filtro-label">Data final</label>
+                                    <input type="date" class="filtro-select" id="data-final">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="divider"></div>
+                        
+                        <div class="relatorio-tabela-container">
+                            <div class="relatorio-resultado" id="relatorio-resultado">
+                                Selecione os filtros acima para gerar um relatório
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>                     
+        </div>
+    </div>
+  </main>
+  <script src="adm.js"></script>
+</body>
+</html>

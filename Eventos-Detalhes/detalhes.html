@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detalhes do Evento</title>
+  <link rel="stylesheet" href="detalhes.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="barra">
+    <a href="Menu.html" class="logo-link">
+        <div class="logo">V</div>
+      </a>
+    <input type="text" placeholder="Pesquisar eventos, shows, teatros, turismo..." class="search-bar">
+    <i class="fa-solid fa-calendar"></i>
+    <div class="tempo">
+      <input type="date" class="date-input" id="date1">
+      <span>-</span>
+      <input type="date" class="date-input" id="date2">
+    </div>
+    <i class="fa-solid fa-road"></i>
+    <select class="filtro">
+      <option>Estado</option>
+    </select>
+    <select class="filtro">
+      <option>Município</option>
+    </select>
+    <i class="fa-solid fa-filter"></i>
+    <select class="filtro">
+      <option>Tipo</option>
+    </select>
+      <button id="btnCategoria" class="filtro-button">Categoria</button>
+    <a href="/Mapa">
+      <button class="map-btn" type="button"><i class="fa-regular fa-image"></i> Mapa</button>
+    </a>
+    <button type="button" class="user-btn" onclick="toggleSidebar()">
+      <i class="fa-solid fa-bars icon-space"></i>
+      <i class="fa-regular fa-user"></i>
+    </button>
+  </header>
+  <aside id="sidebar" class="sidebar">
+    <h2>Nome do Usuário</h2>
+    <ul>
+      <li><a href="/Menu-inicial/Menu.html">Inicio</a></li>
+      <li><a href="#">Perfil</a></li>
+      <li><a href="#">Configurações</a></li>
+      <li><a href="#">Desconectar</a></li>
+    </ul>
+  </aside>
+
+  <div id="overlay" class="overlay" style="display: none;"></div>
+
+  <div class="escondida" id="menuCategoria">
+    <h2 class="tcategoria"> - Categorias</h2>
+    <p class="categoria">Festas e Shows</p>
+    <p class="categoria">Passeios</p>
+    <p class="categoria">Restaurantes</p>
+    <p class="categoria">Stand Up e Comédia</p>
+    <p class="categoria">Esportes</p>
+    <p class="categoria">Cursos e Workshop</p>
+    <p class="categoria">Teatros e Espetáculos</p>
+    <p class="categoria">Infantil</p>
+    <p class="categoria">Congressos e Palestras</p>
+  </div>
+  <main class="main-content">
+     <div class="container">
+        <div class="event-header">
+  <h1 class="event-title">Nome do Evento</h1>
+
+  <div class="event-image-wrapper">
+    <div class="arrow arrow-left" onclick="prevImage()">&#10094;</div>
+
+    <div class="event-image" id="eventImageContainer">
+      <img id="eventImage" src="img1.jpg" alt="Imagem do Evento">
+    </div>
+
+    <div class="arrow arrow-right" onclick="nextImage()">&#10095;</div>
+  </div>
+  <div class="carousel-indicators" id="carouselIndicators"></div>
+
+  <div class="tabs">
+    <div class="tab active">Informações sobre o Evento</div>
+  </div>
+
+  <div class="tab-content">
+    <div class="info-section">
+      <div class="section">
+        <p>Um resumo do evento que explica o que vai acontecer</p>
+        <p>Um resumo do principal objetivo é de criar conteúdo informativo de qualidade para o público-alvo específico.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Organizador</div>
+        <p>Detalhes sobre quem está organizando o evento.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Localização</div>
+        <p>Endereço ou local virtual do evento.</p>
+        <p>Detalhes adicionais se necessário</p>
+      </div>
+    </div>
+
+    <div class="sidebar1">
+      <div class="section">
+        <div class="section-title">Redes Sociais</div>
+        <p>Mídias sociais</p>
+        <p>Perfis sociais</p>
+      </div>
+
+      <div class="accessibility-info">
+        <div class="section-title">Acessibilidade</div>
+        <p>Este evento é adaptado para pessoas com necessidades especiais</p>
+      </div>
+
+      <div class="section">
+        <div class="rating">
+          ★★★★☆ <span class="rating-count">4.0 (150)</span>
+        </div>
+        <p>Veja detalhes de como os usuários avaliaram este evento</p>
+      </div>
+    </div>
+  </div>
+</div>
+        
+        <div class="reviews">
+            <h2>Avaliações do Evento</h2>
+            
+            <div class="review-form">
+                <p>Escreva uma avaliação sobre o evento:</p>
+                <div class="review-rating">
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star filled">★</span>
+                    <span class="star">★</span>
+                </div>
+                <textarea placeholder="Escreva aqui sua opinião..." rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                <button class="btn">Comentar</button>
+            </div>
+            
+            <div class="review">
+                <div class="review-date">Usuário Anônimo - 3 meses atrás</div>
+                <div class="review-rating">★★★★★</div>
+                <div class="review-text">Event foi excelente! Tudo bem organizado.</div>
+            </div>
+            
+            <div class="review">
+                <div class="review-date">Usuário Anônimo - 5 meses atrás</div>
+                <div class="review-rating">★★★★☆</div>
+                <div class="review-text">Experiência positiva! Tudo foi muito bem organizado e o conteúdo foi relevante e interessante.</div>
+            </div>
+            
+            <div class="review">
+                <div class="review-date">Usuário Anônimo - 6 meses atrás</div>
+                <div class="review-rating">★★★☆☆</div>
+                <div class="review-text">Evento interessante, mas poderia ter melhor organização e mais tempo para networking.</div>
+            </div>
+        </div>
+    </div>
+  </main>
+
+  <script src="detalhes.js"></script>
+</body>
+</html>

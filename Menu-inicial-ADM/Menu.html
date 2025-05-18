@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="Menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header class="barra">
+    <a href="Menu.html" class="logo-link">
+        <div class="logo">V</div>
+      </a>
+    <input type="text" placeholder="Pesquisar eventos, shows, teatros, turismo..." class="search-bar">
+    <i class="fa-solid fa-calendar"></i>
+    <div class="tempo">
+      <input type="date" class="date-input" id="date1">
+      <span>-</span>
+      <input type="date" class="date-input" id="date2">
+    </div>
+    <i class="fa-solid fa-road"></i>
+    <select class="filtro">
+      <option>Estado</option>
+    </select>
+    <select class="filtro">
+      <option>Município</option>
+    </select>
+    <i class="fa-solid fa-filter"></i>
+    <select class="filtro">
+      <option>Tipo</option>
+    </select>
+      <button id="btnCategoria" class="filtro-button">Categoria</button>
+    <a href="/Mapa">
+      <button class="map-btn" type="button"><i class="fa-regular fa-image"></i> Mapa</button>
+    </a>
+    <button type="button" class="user-btn" onclick="toggleSidebar()">
+      <i class="fa-solid fa-bars icon-space"></i>
+      <i class="fa-regular fa-user"></i>
+    </button>
+  </header>
+  <aside id="sidebar" class="sidebar">
+    <h2>Nome do Usuário</h2>
+    <ul>
+      <li><a href="/Menu-inicial/Menu.html">Inicio</a></li>
+      <li><a href="#">Perfil</a></li>
+      <li><a href="#">Configurações</a></li>
+      <li><a href="#">Desconectar</a></li>
+    </ul>
+  </aside>
+
+  <div id="overlay" class="overlay" style="display: none;"></div>
+
+  <div class="escondida" id="menuCategoria">
+    <h2 class="tcategoria"> - Categorias</h2>
+    <p class="categoria">Festas e Shows</p>
+    <p class="categoria">Passeios</p>
+    <p class="categoria">Restaurantes</p>
+    <p class="categoria">Stand Up e Comédia</p>
+    <p class="categoria">Esportes</p>
+    <p class="categoria">Cursos e Workshop</p>
+    <p class="categoria">Teatros e Espetáculos</p>
+    <p class="categoria">Infantil</p>
+    <p class="categoria">Congressos e Palestras</p>
+  </div>
+  <main class="eventos">
+    <div class="section">
+      <div class="section-header"></div>
+      <div class="category-container">
+    <a href="/eventos/festas-shows" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🎵</div>
+            <div class="category-name">Festas e Shows</div>
+        </div>
+    </a>
+    <a href="/eventos/teatros-espetaculos" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🎭</div>
+            <div class="category-name">Teatros e Espetáculos</div>
+        </div>
+    </a>
+    <a href="/eventos/passeios" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🛤</div>
+            <div class="category-name">Passeios</div>
+        </div>
+    </a>
+    <a href="/eventos/infantil" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">👶</div>
+            <div class="category-name">Infantil</div>
+        </div>
+    </a>
+    <a href="/eventos/congressos-palestras" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🧠</div>
+            <div class="category-name">Congressos e Palestras</div>
+        </div>
+    </a>
+    <a href="/eventos/cursos-workshops" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🎨</div>
+            <div class="category-name">Cursos e Workshop</div>
+        </div>
+    </a>
+    <a href="/eventos/stand-up-comedia" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🎤</div>
+            <div class="category-name">Stand Up e Comédia</div>
+        </div>
+    </a>
+    <a href="/eventos/restaurantes" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🍽</div>
+            <div class="category-name">Restaurantes</div>
+        </div>
+    </a>
+    <a href="/eventos/esportes" class="category-link">
+        <div class="category-card">
+            <div class="category-icon">🎖</div>
+            <div class="category-name">Esportes</div>
+        </div>
+    </a>
+</div>
+</div>
+
+<!-- Seção Mais Pesquisados -->
+<div class="section">
+    <div class="section-header">
+        <h2 class="section-title">Mais pesquisados nas últimas 24h</h2>
+        <div class="nav-buttons">
+            <button class="nav-button"><</button>
+            <button class="nav-button">></button>
+        </div>
+    </div>
+    <div class="event-container">
+        <a href="/evento/evento-1" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/evento-2" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/evento-3" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/evento-4" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/evento-5" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+<!-- Populares -->
+<div class="section">
+    <div class="section-header">
+        <h2 class="section-title">Mais Populares</h2>
+        <div class="nav-buttons">
+            <button class="nav-button"><</button>
+            <button class="nav-button">></button>
+        </div>
+    </div>
+    <div class="event-container">
+        <a href="/evento/festa-1" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/festa-2" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/festa-3" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/festa-4" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+        <a href="/evento/festa-5" class="event-link">
+            <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-details">
+                    <div class="event-title">Lorem Ipsum is simply dummy text of the printing.</div>
+                    <div class="event-description">It is a long established fact that a reader</div>
+                    <div class="event-info">Quinta, 02 de Abr às 22:30</div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+  </main>
+  <script src="Menu.js"></script>
+</body>
+</html>
