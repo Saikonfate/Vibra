@@ -2,65 +2,75 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-require('../conexao.php'); 
+require('../conexao.php'); // Garanta que o caminho para conexao.php esteja correto
 
 $login_error = '';
+$email_input = ''; // Para manter o email no campo em caso de erro
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (empty(trim($_POST['email']))) {
+    $email_input = trim($_POST['email'] ?? '');
+    $senha_fornecida = $_POST['senha'] ?? '';
+
+    if (empty($email_input)) {
         $login_error = "Preencha seu e-mail.";
-    } else if (empty($_POST['senha'])) {
+    } else if (empty($senha_fornecida)) {
         $login_error = "Preencha sua senha.";
     } else {
-        $email = $mysqli->real_escape_string(trim($_POST["email"])); // Ainda pode usar para buscar
-        $senha_fornecida = $_POST["senha"];
-
-        // Selecionar o usuário pelo email
+        // Usar $email_input que já foi trim()
         $sql_code = "SELECT id, nome, email, senha, tipo FROM usuario WHERE email = ?";
         $stmt = $mysqli->prepare($sql_code);
 
         if ($stmt) {
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
+            $stmt->bind_param("s", $email_input);
+            if (!$stmt->execute()) {
+                $login_error = "Erro ao processar o login. Tente novamente.";
+                error_log("Login Erro Execute Select: " . $stmt->error);
+            } else {
+                $result = $stmt->get_result();
+                if ($result->num_rows == 1) {
+                    $usuario = $result->fetch_assoc();
 
-            if ($result->num_rows == 1) {
-                $usuario = $result->fetch_assoc();
+                    // Verificar a senha hasheada (SEMPRE USE ISSO!)
+                    if (password_verify($senha_fornecida, $usuario['senha'])) {
+                        session_regenerate_id(true); // Previne session fixation
 
-                // Verificar a senha hasheada
-                if (password_verify($senha_fornecida, $usuario['senha'])) {
-                    // Senha correta
-                    session_regenerate_id(true); 
+                        $_SESSION['id'] = $usuario["id"];
+                        $_SESSION['nome'] = $usuario['nome'];
+                        $_SESSION['email'] = $usuario['email'];
+                        $_SESSION['tipo'] = $usuario['tipo'];   // 'admin' ou 'cliente'
 
-                    $_SESSION['id'] = $usuario["id"];
-                    $_SESSION['nome'] = $usuario['nome'];
-                    $_SESSION['email'] = $usuario['email']; 
-                    $_SESSION['tipo'] = $usuario['tipo'];   
-
-                    header("Location: /PI.3/Menu-inicial-cliente/Menu.php"); 
-                    exit();
+                        // TODOS os usuários são redirecionados para a página inicial do cliente
+                        header("Location: ../Menu-inicial-cliente/Menu.php");
+                        exit();
+                    } else {
+                        $login_error = "Falha ao logar! E-mail ou senha incorretos.";
+                    }
                 } else {
                     $login_error = "Falha ao logar! E-mail ou senha incorretos.";
                 }
-            } else {
-                $login_error = "Falha ao logar! E-mail ou senha incorretos.";
             }
             $stmt->close();
         } else {
-            $login_error = "Erro no sistema. Tente novamente mais tarde.";
+            $login_error = "Erro no sistema de login. Tente novamente mais tarde.";
+            error_log("Login Erro Prepare Select: " . $mysqli->error);
         }
     }
 }
-$mysqli->close();
+// Fechar a conexão mysqli se ela ainda estiver aberta
+if (isset($mysqli) && $mysqli->ping()) {
+    $mysqli->close();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Login - Vibra</title>
   <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="reset.css"> <link rel="stylesheet" href="login.css"> </head>
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="login.css">
+</head>
 <body>
   <header>
     <h1>Vibra</h1>
@@ -81,16 +91,19 @@ $mysqli->close();
       <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] === 'cadastro'): ?>
         <p style="color:green; text-align:center; margin-bottom:10px;">Cadastro realizado com sucesso! Faça o login.</p>
       <?php endif; ?>
-       <?php if (isset($_GET['reset']) && $_GET['reset'] === 'success'): ?>
+      <?php if (isset($_GET['reset']) && $_GET['reset'] === 'success'): ?>
         <p style="color:green; text-align:center; margin-bottom:10px;">Sua senha foi redefinida com sucesso! Faça o login com sua nova senha.</p>
       <?php endif; ?>
+      <?php if (isset($_GET['erro']) && $_GET['erro'] === 'acesso_admin_negado'): ?>
+        <p style="color:red; text-align:center; margin-bottom:10px;">Acesso negado. Área restrita a administradores.</p>
+      <?php endif; ?>
 
-      <form action="login.php" method="POST"> 
-        <label>E-mail</label>
-        <input type="email" class="email-login" name="email" required placeholder="E-mail" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
-        <label>Senha</label>
-        <input type="password" class="senha-login" name="senha" required placeholder="Senha">
-        <p><a href="../RecuperarSenha/solicitar_recuperacao.php">Esqueci minha senha</a></p> 
+      <form action="login.php" method="POST">
+        <label for="email-login-id">E-mail</label>
+        <input type="email" id="email-login-id" class="email-login" name="email" required placeholder="E-mail" value="<?php echo htmlspecialchars($email_input); ?>">
+        <label for="senha-login-id">Senha</label>
+        <input type="password" id="senha-login-id" class="senha-login" name="senha" required placeholder="Senha">
+        <p><a href="../RecuperarSenha/solicitar_recuperacao.php">Esqueci minha senha</a></p>
         <button type="submit">Entrar</button>
       </form>
     </section>

@@ -1,15 +1,18 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) { // Melhor verificar antes de iniciar
+    session_start();
+}
 include('../conexao.php'); // Certifique-se que o caminho para conexao.php está correto
 
 header('Content-Type: application/json');
 
+// Usar as chaves de sessão corretas: 'id', 'nome', 'email'
 if (!isset($_SESSION['id'])) {
     echo json_encode(['success' => false, 'message' => 'Usuário não autenticado. Por favor, faça login novamente.']);
     exit();
 }
 
-$usuario_id = $_SESSION['id'];
+$usuario_id_sessao = $_SESSION['id']; // Usar a chave 'id'
 $data = json_decode(file_get_contents('php://input'), true);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $data) {
@@ -29,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $data) {
             echo json_encode(['success' => false, 'message' => 'Erro ao preparar a query (nome): ' . $mysqli->error]);
             exit();
         }
-        $stmt->bind_param("si", $novo_nome, $usuario_id);
+        $stmt->bind_param("si", $novo_nome, $usuario_id_sessao);
         if ($stmt->execute()) {
-            $_SESSION['nome'] = $novo_nome; // Atualiza o nome na sessão
+            $_SESSION['nome'] = $novo_nome; // Atualiza a sessão com a chave correta 'nome'
             echo json_encode(['success' => true, 'message' => 'Nome atualizado com sucesso!', 'field' => 'nome', 'newValue' => $novo_nome]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Erro ao atualizar nome: ' . $stmt->error]);
@@ -49,13 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $data) {
             exit();
         }
 
-        // Verifica se o e-mail já está em uso por outro usuário
         $stmt_check = $mysqli->prepare("SELECT id FROM usuario WHERE email = ? AND id != ?");
         if (!$stmt_check) {
             echo json_encode(['success' => false, 'message' => 'Erro ao preparar a query (verificação email): ' . $mysqli->error]);
             exit();
         }
-        $stmt_check->bind_param("si", $novo_email, $usuario_id);
+        $stmt_check->bind_param("si", $novo_email, $usuario_id_sessao);
         $stmt_check->execute();
         $stmt_check->store_result();
 
@@ -71,9 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $data) {
             echo json_encode(['success' => false, 'message' => 'Erro ao preparar a query (email): ' . $mysqli->error]);
             exit();
         }
-        $stmt->bind_param("si", $novo_email, $usuario_id);
+        $stmt->bind_param("si", $novo_email, $usuario_id_sessao);
         if ($stmt->execute()) {
-            $_SESSION['email'] = $novo_email; // Atualiza o e-mail na sessão
+            $_SESSION['email'] = $novo_email; // Atualiza a sessão com a chave correta 'email'
             echo json_encode(['success' => true, 'message' => 'E-mail atualizado com sucesso!', 'field' => 'email', 'newValue' => $novo_email]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Erro ao atualizar e-mail: ' . $stmt->error]);
