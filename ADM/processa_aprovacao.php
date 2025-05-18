@@ -2,12 +2,12 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-require('../conexao.php'); // Caminho: PI.3/conexao.php
+require('../conexao.php'); 
 
-// --- Autenticação e Autorização do Admin ---
+
 if (!isset($_SESSION['id']) || !isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
     header('HTTP/1.1 403 Forbidden');
-    // Envia uma resposta JSON para que o JavaScript possa tratar o erro adequadamente
+ 
     echo json_encode(['success' => false, 'message' => 'Acesso negado. Somente administradores.']);
     exit;
 }
@@ -19,8 +19,6 @@ if ($action === 'listar_pendentes') {
     $eventos_pendentes = [];
     $pontos_pendentes = [];
 
-    // Listar Eventos Pendentes
-    // Assumindo que a coluna data_cadastro EXISTE em evento_cultural
     $sql_eventos = "SELECT ec.id, ec.nome, ec.horario_abertura, c.nome as nome_cidade, 
                            DATE_FORMAT(ec.data_cadastro, '%d/%m/%Y %H:%i') as data_cadastro_fmt
                     FROM evento_cultural ec
@@ -33,11 +31,10 @@ if ($action === 'listar_pendentes') {
         }
     } else {
         error_log("Erro SQL ao listar eventos pendentes: " . $mysqli->error);
-        // Não interrompa, tente buscar os pontos
+ 
     }
 
-    // Listar Pontos Turísticos Pendentes
-    // Assumindo que a coluna data_cadastro EXISTE em ponto_turistico
+    
     $sql_pontos = "SELECT pt.id, pt.nome, pt.tipo, c.nome as nome_cidade, 
                           DATE_FORMAT(pt.data_cadastro, '%d/%m/%Y %H:%i') as data_cadastro_fmt
                    FROM ponto_turistico pt

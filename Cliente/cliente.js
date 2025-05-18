@@ -324,10 +324,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         setupFormValidator('ponto-form', function(form) {
-            const pontoTuristico = form.querySelector('#ponto-turistico')?.value.trim();
+            const pontoTuristico = form.querySelector('#ponto-turistico-nome')?.value.trim();
             if (!pontoTuristico) {
                 alert('Por favor, preencha o campo Ponto Turístico.');
-                form.querySelector('#ponto-turistico')?.focus();
+                form.querySelector('#ponto-turistico-nome')?.focus();
                 return false;
             }
             const idCidade = form.querySelector('#id_cidade-ponto')?.value;

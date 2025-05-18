@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-require('../conexao.php'); // Ajuste o caminho se necessário
+require('../conexao.php');
 
 // Autenticação do Admin
 if (!isset($_SESSION['id']) || !isset($_SESSION['tipo']) || $_SESSION['tipo'] !== 'admin') {
@@ -10,7 +10,6 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['tipo']) || $_SESSION['tipo'] !=
     die("Acesso negado.");
 }
 
-// Pegar filtros da query string (GET)
 $tipo_relatorio = $_GET['tipo_relatorio'] ?? '';
 $estado_filtro = $_GET['estado'] ?? '';
 $periodo_filtro = $_GET['periodo'] ?? ''; // Ex: '7dias', '30dias', 'custom'
@@ -54,7 +53,6 @@ switch ($tipo_relatorio) {
             $params[] = $status_filtro;
             $param_types .= "s";
         }
-        // Adicionar filtro de período para data_cadastro
         if ($periodo_filtro === 'custom' && !empty($data_inicial_filtro) && !empty($data_final_filtro)) {
             $sql .= " AND DATE(pt.data_cadastro) BETWEEN ? AND ?";
             $params[] = $data_inicial_filtro;
@@ -65,7 +63,6 @@ switch ($tipo_relatorio) {
         } elseif ($periodo_filtro === '30dias') {
             $sql .= " AND pt.data_cadastro >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
         }
-        // Adicionar mais filtros de período se necessário
         $sql .= " ORDER BY pt.data_cadastro DESC";
         break;
 
@@ -85,7 +82,6 @@ switch ($tipo_relatorio) {
             $params[] = $status_filtro;
             $param_types .= "s";
         }
-        // Adicionar filtro de período para data_cadastro
          if ($periodo_filtro === 'custom' && !empty($data_inicial_filtro) && !empty($data_final_filtro)) {
             $sql .= " AND DATE(ec.data_cadastro) BETWEEN ? AND ?";
             $params[] = $data_inicial_filtro;
@@ -119,14 +115,14 @@ if ($stmt) {
 
         // Cabeçalho do CSV
         $header_printed = false;
-        $data_row = []; // Para armazenar os dados de cada linha
+        $data_row = []; 
 
         while ($row = $result->fetch_assoc()) {
             if (!$header_printed) {
-                fputcsv($output, array_keys($row), ';'); // Usar ; como delimitador para melhor compatibilidade com Excel em PT-BR
+                fputcsv($output, array_keys($row), ';'); 
                 $header_printed = true;
             }
-            // Garantir que todas as colunas sejam strings e tratar valores nulos
+           
             $data_row = [];
             foreach($row as $value) {
                 $data_row[] = $value === null ? '' : (string)$value;

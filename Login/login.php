@@ -2,10 +2,10 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-require('../conexao.php'); // Garanta que o caminho para conexao.php esteja correto
+require('../conexao.php'); 
 
 $login_error = '';
-$email_input = ''; // Para manter o email no campo em caso de erro
+$email_input = ''; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email_input = trim($_POST['email'] ?? '');

@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-require('../protect.php'); // Garante que o usuário está logado
+require('../protect.php'); 
 require('../conexao.php');
 
 // Pega o nome e tipo do usuário da sessão
@@ -52,7 +52,7 @@ if ($result_eventos) {
 } else {
     error_log("Erro ao buscar eventos culturais: " . $mysqli->error);
 }
-// Não feche $mysqli aqui se for usado mais abaixo no HTML (ex: para selects)
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -205,8 +205,6 @@ if ($result_eventos) {
         }
     }
 
-    // Usar um nome diferente para a função da sidebar desta página para evitar conflito
-    // com a função toggleAdmSidebar do adm.js, caso ambos sejam carregados por engano.
     window.toggleClienteSidebar = function() {
         const sidebarCliente = document.getElementById("sidebar");
         const overlayCliente = document.getElementById("overlay");
@@ -234,7 +232,7 @@ if ($result_eventos) {
             }
             if (menuCategoriaGlobal && menuCategoriaGlobal.style.display !== 'none') {
                  menuCategoriaGlobal.style.display = 'none';
-                 overlayGlobal.style.display = 'none'; // Garante que o overlay feche
+                 overlayGlobal.style.display = 'none'; 
             }
         });
     }
@@ -243,7 +241,6 @@ if ($result_eventos) {
             event.stopPropagation();
             const isMenuVisible = menuCategoriaGlobal.style.display === 'grid';
             menuCategoriaGlobal.style.display = isMenuVisible ? 'none' : 'grid';
-            // Só mostra o overlay se o menu de categoria for aberto
             overlayGlobal.style.display = menuCategoriaGlobal.style.display === 'grid' ? 'block' : 'none';
         });
     }

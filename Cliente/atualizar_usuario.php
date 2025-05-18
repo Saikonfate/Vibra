@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) { // Melhor verificar antes de iniciar
     session_start();
 }
-include('../conexao.php'); // Certifique-se que o caminho para conexao.php está correto
+include('../conexao.php'); 
 
 header('Content-Type: application/json');
 
@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$usuario_id_sessao = $_SESSION['id']; // Usar a chave 'id'
+$usuario_id_sessao = $_SESSION['id']; 
 $data = json_decode(file_get_contents('php://input'), true);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $data) {
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $data) {
         }
         $stmt->bind_param("si", $novo_nome, $usuario_id_sessao);
         if ($stmt->execute()) {
-            $_SESSION['nome'] = $novo_nome; // Atualiza a sessão com a chave correta 'nome'
+            $_SESSION['nome'] = $novo_nome; 
             echo json_encode(['success' => true, 'message' => 'Nome atualizado com sucesso!', 'field' => 'nome', 'newValue' => $novo_nome]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Erro ao atualizar nome: ' . $stmt->error]);

@@ -666,6 +666,8 @@ h2 {
             font-style: italic;
             font-size: 14px;
         }
+        
+        
 
         @media (max-width: 768px) {
             .relatorio-search-container {

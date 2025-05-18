@@ -1,15 +1,14 @@
 <?php
-// No TOPO do cliente.php, ANTES de qualquer saída HTML
-if (session_status() == PHP_SESSION_NONE) { // Garante que a sessão seja iniciada apenas uma vez
+
+if (session_status() == PHP_SESSION_NONE) { 
     session_start();
 }
-// Use require para arquivos críticos como conexão. Ajuste o caminho se necessário.
+
 require('../conexao.php');
 
-// --- Início: Uso das chaves de sessão CORRETAS ---
-// Seu script de login define: $_SESSION['id'], $_SESSION['nome'], $_SESSION['email'], $_SESSION['tipo']
-if (!isset($_SESSION['id'])) { // Verificando a chave de sessão 'id'
-    header('Location: ../Login/login.php'); // Ajuste o caminho para seu login.php
+
+if (!isset($_SESSION['id'])) { 
+    header('Location: ../Login/login.php'); 
     exit();
 }
 
@@ -18,11 +17,10 @@ $id_usuario_logado = $_SESSION['id'];
 $usuario_nome_atual = $_SESSION['nome'] ?? 'Usuário';
 $usuario_email_atual = $_SESSION['email'] ?? 'email@exemplo.com';
 $tipo_usuario_logado = $_SESSION['tipo'] ?? 'cliente'; // Para a sidebar condicional
-// --- Fim: Uso das chaves de sessão CORRETAS ---
 
 
-// --- INÍCIO: Recuperar mensagens e estado da sessão (para o GET após o REDIRECT) ---
-// Estas variáveis PRECISAM ser definidas AQUI, no escopo global, ANTES de qualquer HTML.
+
+
 $prg_feedback_msg = '';
 if (isset($_SESSION['prg_feedback_msg'])) {
     $prg_feedback_msg = $_SESSION['prg_feedback_msg'];
@@ -45,10 +43,7 @@ $prg_active_sub_tab = $_SESSION['prg_active_sub_tab'] ?? 'form-cidades'; // Padr
 if (isset($_SESSION['prg_active_sub_tab'])) {
     unset($_SESSION['prg_active_sub_tab']);
 }
-// --- FIM: Recuperar mensagens e estado da sessão ---
 
-
-// --- INÍCIO: Função processarUploads (Mantida e revisada) ---
 function processarUploads($mysqli_conn, $item_id, $item_tipo, $input_name, &$erros_ref) {
     if (isset($_FILES[$input_name]) && !empty($_FILES[$input_name]['name'][0])) {
         $base_upload_dir = "../uploads/";
@@ -112,31 +107,30 @@ function processarUploads($mysqli_conn, $item_id, $item_tipo, $input_name, &$err
 }
 // --- FIM ---
 
-// --- INÍCIO: Lógica de Cadastro com PRG ---
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $form_action = $_POST['form_action'] ?? '';
     $erros_para_sessao = [];
     $feedback_para_sessao = '';
-    $sub_aba_destino = 'form-cidades';
+    $sub_aba_destino = 'form-cidades'; // Padrão
 
     if ($form_action === 'cadastrar_cidade') {
         $sub_aba_destino = 'form-cidades';
         $nome = trim($_POST['nome'] ?? '');
-        $estado = trim($_POST['estado'] ?? '');
+        $estado = trim($_POST['estado'] ?? ''); // Receberá o valor do select
         $pais = trim($_POST['pais'] ?? '');
         $descricao = trim($_POST['descricao'] ?? null);
         $latitude = (isset($_POST['latitude']) && $_POST['latitude'] !== '') ? filter_var($_POST['latitude'], FILTER_VALIDATE_FLOAT) : null;
         $longitude = (isset($_POST['longitude']) && $_POST['longitude'] !== '') ? filter_var($_POST['longitude'], FILTER_VALIDATE_FLOAT) : null;
 
         if (empty($nome)) $erros_para_sessao[] = "Nome da cidade é obrigatório.";
-        if (empty($estado)) $erros_para_sessao[] = "Estado é obrigatório.";
+        if (empty($estado)) $erros_para_sessao[] = "Estado é obrigatório."; // Validação para o select
         if (empty($pais)) $erros_para_sessao[] = "País é obrigatório.";
         if (isset($_POST['latitude']) && $_POST['latitude'] !== '' && $latitude === false) $erros_para_sessao[] = "Latitude da cidade inválida.";
         if (isset($_POST['longitude']) && $_POST['longitude'] !== '' && $longitude === false) $erros_para_sessao[] = "Longitude da cidade inválida.";
 
         if (empty($erros_para_sessao)) {
             $sql = "INSERT INTO cidade (nome, estado, pais, descricao, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt_cidade = $mysqli->prepare($sql); // Usar variável $stmt_cidade
+            $stmt_cidade = $mysqli->prepare($sql);
             if ($stmt_cidade) {
                 $stmt_cidade->bind_param("ssssdd", $nome, $estado, $pais, $descricao, $latitude, $longitude);
                 if ($stmt_cidade->execute()) {
@@ -144,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 } else {
                     $erros_para_sessao[] = "Erro ao cadastrar cidade: " . $stmt_cidade->error;
                 }
-                $stmt_cidade->close(); // Fechar $stmt_cidade
+                $stmt_cidade->close();
             } else {
                 $erros_para_sessao[] = "Erro ao preparar query (cidade): " . $mysqli->error;
             }
@@ -174,19 +168,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if (empty($erros_para_sessao)) {
-            // Adicionando status e data_cadastro na query, que serão preenchidos pelo DEFAULT do BD
             $sql = "INSERT INTO ponto_turistico (id_cidade, nome, descricao, tipo, endereco, latitude, longitude, horario_abertura, horario_fechamento, taxaentrada) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt_ponto = $mysqli->prepare($sql); // Usar variável $stmt_ponto
+            $stmt_ponto = $mysqli->prepare($sql);
             if ($stmt_ponto) {
                 $stmt_ponto->bind_param("issssddssd", $id_cidade, $nome, $descricao, $tipo, $endereco, $latitude, $longitude, $horario_abertura, $horario_fechamento, $taxaentrada);
-                if ($stmt_ponto->execute()) { // Esta pode ser a linha 151 se o erro for aqui
+                if ($stmt_ponto->execute()) {
                     $ponto_id_inserido = $stmt_ponto->insert_id;
                     $feedback_para_sessao = "<p class='feedback-success'>Ponto turístico '" . htmlspecialchars($nome) . "' cadastrado com sucesso e enviado para análise!</p>";
                     processarUploads($mysqli, $ponto_id_inserido, 'ponto_turistico', 'imagens_ponto', $erros_para_sessao);
                 } else {
                     $erros_para_sessao[] = "Erro ao cadastrar ponto turístico: " . $stmt_ponto->error;
                 }
-                $stmt_ponto->close(); // Fechar $stmt_ponto
+                $stmt_ponto->close();
             } else {
                 $erros_para_sessao[] = "Erro ao preparar query (ponto): " . $mysqli->error;
             }
@@ -218,19 +211,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if (empty($erros_para_sessao)) {
-            // Adicionando status e data_cadastro na query, que serão preenchidos pelo DEFAULT do BD
             $sql = "INSERT INTO evento_cultural (id_cidade, nome, descricao, horario_abertura, horario_fechamento, local_evento, tipo, taxaentrada) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt_evento = $mysqli->prepare($sql); // Usar variável $stmt_evento
+            $stmt_evento = $mysqli->prepare($sql);
             if ($stmt_evento) {
                 $stmt_evento->bind_param("issssssd", $id_cidade, $nome, $descricao, $horario_abertura, $horario_fechamento, $local_evento, $tipo, $taxaentrada);
-                if ($stmt_evento->execute()) { // Ou esta pode ser a linha 151
+                if ($stmt_evento->execute()) {
                     $evento_id_inserido = $stmt_evento->insert_id;
                     $feedback_para_sessao = "<p class='feedback-success'>Evento cultural '" . htmlspecialchars($nome) . "' cadastrado com sucesso e enviado para análise!</p>";
                     processarUploads($mysqli, $evento_id_inserido, 'evento_cultural', 'imagens_evento', $erros_para_sessao);
                 } else {
                     $erros_para_sessao[] = "Erro ao cadastrar evento cultural: " . $stmt_evento->error;
                 }
-                $stmt_evento->close(); // Fechar $stmt_evento
+                $stmt_evento->close();
             } else {
                 $erros_para_sessao[] = "Erro ao preparar query (evento): " . $mysqli->error;
             }
@@ -239,19 +231,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Armazenar feedback na sessão para o PRG
     if (!empty($erros_para_sessao)) {
-        if (!empty($feedback_para_sessao)) {
+        if (!empty($feedback_para_sessao)) { // Se houve sucesso parcial (e.g., cadastro OK, mas erro no upload)
             $feedback_para_sessao .= " No entanto, ocorreram problemas com alguns uploads:<ul>";
             foreach($erros_para_sessao as $erro_item_upload) {
                 $feedback_para_sessao .= "<li>" . htmlspecialchars($erro_item_upload) . "</li>";
             }
             $feedback_para_sessao .= "</ul>";
             $_SESSION['prg_feedback_msg'] = "<div class='feedback-warning'>" . $feedback_para_sessao . "</div>";
-        } else {
+        } else { // Apenas erros
             $_SESSION['prg_errors'] = $erros_para_sessao;
         }
-    } elseif (!empty($feedback_para_sessao)) {
+    } elseif (!empty($feedback_para_sessao)) { 
         $_SESSION['prg_feedback_msg'] = $feedback_para_sessao;
     }
+
 
     $_SESSION['prg_active_main_tab'] = 'cadastros';
     $_SESSION['prg_active_sub_tab'] = $sub_aba_destino;
@@ -259,7 +252,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: cliente.php#cadastros", true, 303);
     exit();
 }
-// --- FIM: Lógica de Cadastro com PRG ---
+
+// Array de estados brasileiros para o select
+$estados_brasileiros = [
+    'AC' => 'Acre', 'AL' => 'Alagoas', 'AP' => 'Amapá', 'AM' => 'Amazonas',
+    'BA' => 'Bahia', 'CE' => 'Ceará', 'DF' => 'Distrito Federal', 'ES' => 'Espírito Santo',
+    'GO' => 'Goiás', 'MA' => 'Maranhão', 'MT' => 'Mato Grosso', 'MS' => 'Mato Grosso do Sul',
+    'MG' => 'Minas Gerais', 'PA' => 'Pará', 'PB' => 'Paraíba', 'PR' => 'Paraná',
+    'PE' => 'Pernambuco', 'PI' => 'Piauí', 'RJ' => 'Rio de Janeiro', 'RN' => 'Rio Grande do Norte',
+    'RS' => 'Rio Grande do Sul', 'RO' => 'Rondônia', 'RR' => 'Roraima', 'SC' => 'Santa Catarina',
+    'SP' => 'São Paulo', 'SE' => 'Sergipe', 'TO' => 'Tocantins'
+];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -378,11 +381,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 </div>
                                 <div class="form-row">
                                     <label for="estado-cidade" class="cadastro-label">Estado (UF) <span class="required">*</span></label>
-                                    <input type="text" id="estado-cidade" name="estado" class="cadastro-input" placeholder="Ex: CE" required maxlength="2">
+                                    <select id="estado-cidade" name="estado" class="cadastro-input styled-select" required>
+                                        <option value="" disabled selected>Selecione o Estado</option>
+                                        <?php
+                                        foreach ($estados_brasileiros as $sigla => $nome_estado) {
+                                            echo "<option value=\"" . htmlspecialchars($sigla) . "\">" . htmlspecialchars($nome_estado) . " (" . htmlspecialchars($sigla) . ")</option>";
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="form-row">
                                     <label for="pais-cidade" class="cadastro-label">País <span class="required">*</span></label>
-                                    <input type="text" id="pais-cidade" name="pais" class="cadastro-input" placeholder="Ex: Brasil" required>
+                                    <input type="text" id="pais-cidade" name="pais" class="cadastro-input" placeholder="Ex: Brasil" value="Brasil" required>
                                 </div>
                                 <div class="form-row">
                                     <label for="descricao-cidade" class="cadastro-label">Descrição da Cidade</label>
@@ -416,7 +426,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <select id="id_cidade-ponto" name="id_cidade" class="cadastro-input styled-select" required>
                                         <option value="" disabled selected>Selecione a cidade</option>
                                         <?php
-                                        if (isset($mysqli)) { // Garante que $mysqli está disponível
+                                        if (isset($mysqli)) { 
                                             $query_cidades_select_ponto = "SELECT id, nome, estado FROM cidade ORDER BY nome ASC";
                                             $result_cidades_select_ponto = mysqli_query($mysqli, $query_cidades_select_ponto);
                                             if ($result_cidades_select_ponto) {
@@ -492,10 +502,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <select id="id_cidade-evento" name="id_cidade" class="cadastro-input styled-select" required>
                                         <option value="" disabled selected>Selecione a cidade</option>
                                         <?php
-                                        // Reutilizar $result_cidades_select_ponto se ele foi definido e é válido
                                         if (isset($result_cidades_select_ponto) && $result_cidades_select_ponto) {
-                                            mysqli_data_seek($result_cidades_select_ponto, 0);
-                                            while ($cidade_select_item_evento = mysqli_fetch_assoc($result_cidades_select_ponto)) { // Variável diferente
+                                            mysqli_data_seek($result_cidades_select_ponto, 0); 
+                                            while ($cidade_select_item_evento = mysqli_fetch_assoc($result_cidades_select_ponto)) { 
                                                 echo "<option value='" . htmlspecialchars($cidade_select_item_evento['id']) . "'>" . htmlspecialchars($cidade_select_item_evento['nome']) . " - " . htmlspecialchars($cidade_select_item_evento['estado']) . "</option>";
                                             }
                                         }

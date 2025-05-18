@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Por favor, selecione um Tipo de Relatório.');
                 return;
             }
-            // ... (resto da lógica de exportação que já funciona)
+
             const estadoRelatorioVal = document.getElementById('estado-relatorio') ? document.getElementById('estado-relatorio').value : '';
             const periodoRelatorioVal = periodoRelatorioEl ? periodoRelatorioEl.value : '';
             const statusRelatorioVal = document.getElementById('status-relatorio') ? document.getElementById('status-relatorio').value : '';
@@ -116,13 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = queryString;
         });
     }
-    // Adicione os listeners para a função de gerar relatório visual se você a tiver
-    // ['tipo-relatorio', 'estado-relatorio', 'periodo-relatorio', 'status-relatorio', 'data-inicial', 'data-final'].forEach(id => {
-    // const el = document.getElementById(id);
-    // if(el) el.addEventListener('change', gerarRelatorioVisualNaTela);
-    // });
 
-}); // Fim do DOMContentLoaded
+}); 
 
 function filtrarTabela(tbody, termo) {
     if (!tbody) return;
@@ -176,7 +171,7 @@ function carregarItensPendentes() {
     eventosTbody.innerHTML = loadingHTML;
     pontosTbody.innerHTML = loadingHTML;
 
-    // O fetch deve apontar para processa_aprovacao.php na mesma pasta ADM
+   
     fetch('processa_aprovacao.php?action=listar_pendentes')
         .then(response => {
             console.log("ADM JS: Resposta do fetch status:", response.status, response.statusText);
@@ -185,10 +180,10 @@ function carregarItensPendentes() {
                     console.error("ADM JS: Erro na resposta do servidor (texto):", text);
                     let errorDetail = "Detalhes do erro não puderam ser lidos.";
                     try {
-                        // Tentar extrair uma mensagem de erro mais limpa se for HTML
+                       
                         const doc = new DOMParser().parseFromString(text, "text/html");
                         const bodyText = doc.body.textContent || "";
-                        errorDetail = bodyText.trim().split('\n')[0].substring(0,150); // Primeiras linhas do erro
+                        errorDetail = bodyText.trim().split('\n')[0].substring(0,150); 
                     } catch (e) {
                         errorDetail = text.substring(0, 150) + (text.length > 150 ? "..." : "");
                     }
@@ -239,7 +234,7 @@ function renderizarTabelaItens(tbodyElement, itens, tipoItem) {
         row.insertCell().textContent = item.nome_cidade || 'N/D';
 
         let terceiraColunaConteudo = 'N/D';
-        // Usar a data formatada se existir, caso contrário o valor bruto ou N/D
+       
         if (tipoItem === 'evento') {
             terceiraColunaConteudo = item.horario_abertura_fmt || item.horario_abertura || 'N/D';
         } else if (tipoItem === 'ponto') {
@@ -297,9 +292,7 @@ window.atualizarStatusItem = function(itemId, tipoItem, novoStatus, buttonElemen
         if (data.success) {
             alert(data.message); // Exibe a mensagem de sucesso ou erro específico do PHP
             if (row) {
-                 // Se a operação foi um sucesso no backend, remove a linha.
-                // Se a mensagem indicar que "Nenhum item pendente encontrado..." (já processado),
-                // o admin pode querer recarregar a lista para ver o estado atual.
+                 
                 if (data.message.includes("atualizado para")) { // Verifica se a mensagem é de sucesso real
                     row.style.transition = 'opacity 0.5s ease-out';
                     row.style.opacity = '0';
@@ -313,8 +306,6 @@ window.atualizarStatusItem = function(itemId, tipoItem, novoStatus, buttonElemen
                     }, 500);
                 } else { // Outra mensagem (ex: "Nenhum item pendente...")
                      allActionButtonsInRow.forEach(btn => btn.disabled = false); // Reabilita botões
-                     // Opcional: recarregar a lista para refletir que o item pode não estar mais pendente
-                     // carregarItensPendentes();
                 }
             }
         } else {
@@ -329,7 +320,6 @@ window.atualizarStatusItem = function(itemId, tipoItem, novoStatus, buttonElemen
     });
 };
 
-// Função para gerar relatório (simulada ou sua lógica real)
 function gerarRelatorioSimulado() {
     const tipoRelatorioEl = document.getElementById('tipo-relatorio');
     const relatorioResultadoEl = document.getElementById('relatorio-resultado');
