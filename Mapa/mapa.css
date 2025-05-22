@@ -1,447 +1,226 @@
- * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    
-.barra {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #1a1a2e;
-    color: white;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-.logo {
-    font-size: 40px;
-    font-weight: bold;
-    font-family: 'Saira Stencil One', sans-serif;
-    margin-right: 10px;
-}
-.logo-link {
-    text-decoration: none;
-    color: inherit;
-}  
-.search-bar {
-    flex: 1;
-    padding: 8px;
-    border-radius: 20px;
-    border: none;
-}
-.tempo {
-    display: flex;
-    font-size: 36px;
-    align-items: center;
-}
-.date-input {
-    position: relative;
-    border: none;
-    background-color: transparent;
-    padding: 8px;
-    color: white;
-    outline: none;
-    cursor: pointer; 
-    text-align: center;
-}
-.date-input::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
+/* Em mapa.css */
+html, body {
     height: 100%;
-    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Para evitar barras de rolagem indesejadas na página do mapa */
 }
-.date-input:after {
-    content: '';
-    display: block;
-    border-bottom: 4px solid white;
-    margin-top: 5px;
-    border-radius: 10px;
-}
-.filtro {
-    background-color: transparent;
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    outline: none;
-    text-decoration: underline;
-    cursor: pointer;
-}
-.map-btn{
-    background-color: #FFFFFF;
-    padding: 8px;
-    border: none;
-    outline: none;
-    border-radius: 15px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-.user-btn{
-    background-color: #FFFFFF;
-    padding: 8px;
-    border: none;
-    outline: none;
-    border-radius: 15px;
-    cursor: pointer;
-}
-.icon-space {
-    margin-right: 8px;
-}
-.content {
-    padding: 20px;
-}
-  
-h2 {
-    margin-top: 30px;
-    color: #333;
-}
-.sidebar1 {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 180px;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    background-color: white;
-    color: #333;
-    padding: 25px;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-    z-index: 1000;
-    box-shadow: none;
+
+body {
     display: flex;
     flex-direction: column;
 }
 
-.sidebar1 .visible {
-    transform: translateX(0);
+.barra {
+    /* Seus estilos para a barra superior */
+    flex-shrink: 0; /* Impede que a barra encolha */
 }
-.sidebar1 h2 {
-    color: #333;
-    font-size: 22px;
-    margin: 0 0 20px 0;
+
+.map-main-content { /* Novo container para o mapa */
+    flex-grow: 1; /* Faz com que ocupe o espaço restante */
+    position: relative; /* Para posicionamento de botões sobre o mapa, se necessário */
+    display: flex; /* Para o map-container ocupar todo o espaço */
+}
+
+#map-container {
+    flex-grow: 1; /* Ocupa todo o espaço do map-main-content */
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    background-color: #f0f0f0; /* Cor de fundo enquanto o mapa carrega */
+}
+
+/* Estilos para as Sidebars (usuário, filtros, detalhes) */
+.sidebar-map { /* Classe base para todas as sidebars nesta página */
+    position: fixed; /* Fixas na tela */
+    top: 0; /* Alinhadas ao topo */
+    height: 100vh; /* Altura total da viewport */
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    z-index: 1002; /* Acima do mapa e do overlay quando visível */
+    transition: transform 0.3s ease-in-out;
+    padding: 20px;
+    overflow-y: auto; /* Permite rolagem se o conteúdo for maior */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-map.visible {
+    transform: translateX(0) !important; /* Garante que a sidebar apareça */
+}
+
+/* Sidebar do Usuário (direita) */
+.default-sidebar { /* Usada para #user-sidebar em mapa.php */
+    right: 0;
+    width: 260px; /* Ajuste a largura conforme necessário */
+    transform: translateX(100%); /* Começa fora da tela à direita */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+/* Estilos para h2, ul, li, a dentro de .default-sidebar (baseados no seu CSS original) */
+.default-sidebar h2 { color: #333; font-size: 20px; margin:0 0 15px 0; padding-bottom:10px; border-bottom:1px solid #eee; text-align:center;}
+.default-sidebar ul { list-style:none; padding:0; margin:0; }
+.default-sidebar ul li a { display:block; padding:10px; text-decoration:none; color:#333; border-radius:4px; transition: background-color 0.2s; }
+.default-sidebar ul li a:hover { background-color:#f0f0f0; }
+
+
+/* Sidebar de Filtros de Categoria (esquerda) */
+.category-sidebar { /* Usada para #category-filters-sidebar em mapa.php */
+    left: 0;
+    width: 280px;
+    transform: translateX(-100%); /* Começa fora da tela à esquerda */
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.category-sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #ddd;
-    text-align: center;
+    border-bottom: 1px solid #eee;
 }
-.sidebar1 ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
+.category-sidebar .sidebar-header h3 { margin: 0; font-size: 1.3em; color: #333; }
+.category-sidebar .close-btn { background: none; border: none; font-size: 1.6em; cursor: pointer; color: #777; }
+.category-sidebar .close-btn:hover { color: #333; }
 
-.sidebar1 ul li {
-    margin: 15px 0;
-}
-
-.sidebar1 ul li a {
-    color: black;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.sidebar1 ul li a:hover {
-    text-decoration: underline;
-}
-.filtro-button {
-    background-color: transparent;
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    outline: none;
-    text-decoration: underline;
+#category-list .category-item {
+    padding: 10px 12px; /* Ajustado padding */
     cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 4px; /* Borda arredondada */
+    margin-bottom: 5px; /* Espaço entre itens */
+}
+#category-list .category-item:last-child { border-bottom: none; }
+#category-list .category-item:hover { background-color: #f0f5fa; }
+#category-list .category-item.active {
+    background-color: #e0e8ff;
+    color: #3a86ff; /* Cor primária */
+    font-weight: 500;
+}
+#category-list .category-item .category-icon {
+    margin-right: 10px;
+    width: 22px; /* Para alinhar os textos */
+    text-align: center;
+    color: #555;
+}
+#category-list .category-item.active .category-icon {
+    color: #3a86ff;
 }
 
-.overlay {
+
+/* Sidebar para Detalhes do Evento/Ponto (direita) */
+.event-sidebar { /* Usada para #event-info-sidebar em mapa.php */
+    right: 0;
+    width: 330px;
+    transform: translateX(100%); /* Começa fora da tela à direita */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.event-sidebar .sidebar-header { /* Reutiliza estilo */
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;
+}
+.event-sidebar .sidebar-header h3 { margin: 0; font-size: 1.3em; color: #333; } /* event-list-title */
+.event-sidebar .close-btn { background: none; border: none; font-size: 1.6em; cursor: pointer; color: #777; }
+.event-sidebar .close-btn:hover { color: #333; }
+
+#event-info-content { padding-top: 10px; }
+#event-info-content h3 { font-size: 1.4em; margin-top: 0; margin-bottom: 12px; color: #1a1a2e;}
+#event-info-content p { margin-bottom: 8px; line-height: 1.5; color: #555; }
+#event-info-content p strong { color: #333; }
+.view-details-link {
+    display: inline-block; margin-top: 15px; padding: 8px 15px; background-color: #3a86ff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; transition: background-color 0.2s;
+}
+.view-details-link:hover { background-color: #2a76f0; }
+
+
+/* Overlay compartilhado */
+.overlay-map { /* Atualizado para .overlay-map se você usou esse ID no html */
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 998;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001; /* Abaixo das sidebars, acima do mapa */
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.overlay-map.visible { /* Se o HTML usa id="overlay", então use .overlay.visible */
+    display: block;
+    opacity: 1;
 }
 
-.escondida {
-    position: fixed;
-    top: 15%;
-    left: 20%;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.315);
-    width: 60%;
-    height: 40%;
-    display: none;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 20px;
-    z-index: 999;
-}
-
-.escondida h2 {
-    grid-column: 1 / -1;
-    font-size: 25px;
-    margin-bottom: 20px;
-    margin-top: 15px;
-    margin-left: 15px;
-}
-
-.categoria {
-    margin: 0;
+/* Botão de filtros na barra superior */
+.filtro-button-mapa { /* Nova classe para o botão de categoria na barra */
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 4px;
     cursor: pointer;
-    color: #242424;
-    font-weight: 500;
-    margin-left: 15px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+}
+.filtro-button-mapa i { margin-right: 5px; }
+.filtro-button-mapa:hover { background-color: #e0e0e0; }
+
+/* Remover estilos de .sidebar e .overlay se eles eram de outra página e não se aplicam aqui */
+/* Certifique-se de que as classes .sidebar1 e .escondida não estejam mais sendo usadas ou causando conflito se não forem parte da página do mapa. */
+
+@media (max-width: 768px) {
+  .map-main-content {
+    /* Em telas menores, a sidebar pode precisar de um comportamento diferente ou o mapa ocupar menos espaço */
+  }
+  .sidebar-map {
+    width: 280px; /* Sidebars um pouco mais estreitas em telas menores */
+  }
+  .default-sidebar, .event-sidebar { /* Sidebars da direita */
+    width: 280px; /* largura */
+  }
+  .category-sidebar { /* Sidebar da esquerda */
+    width: 250px;
+  }
+
+  .barra .search-bar {
+    margin: 0 10px;
+    flex-basis: auto; /* Permite que encolha mais */
+    min-width: 120px;
+  }
+   .filtro-button-mapa {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
 }
 
-.categoria:hover {
-    text-decoration: underline;
+@media (max-width: 480px) {
+    .barra .search-bar {
+        display: none; /* Oculta a barra de pesquisa principal em telas muito pequenas */
+    }
+    #map-search-bar { /* Barra de pesquisa específica do mapa */
+        display: block; /* Garante que esta ainda seja visível se desejado */
+    }
+     .sidebar-map {
+        width: 100%; /* Sidebars ocupam a tela toda */
+        transform: translateX(-100%); /* Todas começam à esquerda */
+        border-radius: 0;
+    }
+    .default-sidebar, .event-sidebar { /* Sidebars da direita */
+        transform: translateX(100%);
+    }
+    .sidebar-map.visible {
+        transform: translateX(0) !important;
+    }
+     #map-filters-btn { /* Botão de categoria sobre o mapa */
+        top: 70px; /* Ajuste se a barra superior mudar de altura */
+    }
 }
-    main {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 70px);
-    }
-    
-    #map-container {
-      flex: 1;
-      position: relative;
-    }
-    
-    #map {
-      width: 100%;
-      height: 100%;
-    }
-    
-    .sidebar {
-      width: 320px;
-      background-color: white;
-      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .sidebar-header {
-      padding: 15px;
-      background-color: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    
-    .search-container {
-      display: flex;
-      align-items: center;
-      background-color: #f8f9fa;
-      border-radius: 20px;
-      padding: 8px 15px;
-      margin-bottom: 10px;
-      border: 1px solid #e0e0e0;
-    }
-    
-    .search-container input {
-      flex: 1;
-      border: none;
-      background: transparent;
-      padding: 5px;
-      outline: none;
-      font-size: 14px;
-    }
-    
-    .tab-container {
-      display: flex;
-      border-bottom: 1px solid #e9ecef;
-    }
-    
-    .tab {
-      flex: 1;
-      padding: 12px 0;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 14px;
-      color: #666;
-    }
-    
-    .tab.active {
-      color: #3b82f6;
-      font-weight: bold;
-      border-bottom: 2px solid #3b82f6;
-    }
-    
-    .tab-content {
-      display: none;
-      padding: 15px;
-      flex: 1;
-      overflow-y: auto;
-    }
-    
-    .tab-content.active {
-      display: block;
-    }
-    
-    .category-item, .nearby-item {
-      margin-bottom: 12px;
-      padding: 10px;
-      border-radius: 8px;
-      background-color: #f8f9fa;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .category-item:hover, .nearby-item:hover {
-      background-color: #e9ecef;
-    }
-    
-    .category-item.active {
-      background-color: #e0e8ff;
-      border-left: 3px solid #3b82f6;
-    }
-    
-    .category-icon {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      background-color: #3b82f6;
-      color: white;
-      text-align: center;
-      line-height: 24px;
-      border-radius: 50%;
-      margin-right: 8px;
-      font-size: 12px;
-    }
-    
-    .event-card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      margin-bottom: 15px;
-      padding: 15px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .event-card:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-      transform: translateY(-2px);
-    }
-    
-    .event-details {
-      padding: 15px;
-    }
-    
-    .sidebar1 {
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 100vh;
-      width: 180px;
-      border-top-left-radius: 15px;
-      border-bottom-left-radius: 15px;
-      background-color: white;
-      color: #333;
-      padding: 25px;
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-      z-index: 1000;
-      box-shadow: none;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .sidebar1.visible {
-      transform: translateX(0);
-      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .escondida {
-      position: fixed;
-      top: 15%;
-      left: 20%;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.315);
-      width: 60%;
-      height: 40%;
-      display: none;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      padding: 20px;
-      z-index: 999;
-    }
-    
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 998;
-    }
-
-    .custom-marker {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: black;
-      font-size: 14px;
-    }
-    
-    .user-location-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .user-dot {
-      width: 20px;
-      height: 20px;
-      background-color: #3b82f6;
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 0 2px #3b82f6;
-      animation: pulse 1.5s infinite;
-    }
-    
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-      }
-    }
-    
-    @media (max-width: 768px) {
-      main {
-        flex-direction: column;
-      }
-      
-      .sidebar {
-        width: 100%;
-        height: 40%;
-      }
-      
-      #map-container {
-        height: 60%;
-      }
-    }

@@ -17,7 +17,6 @@
   <main>
     <section id="sec-cadastro">
       <h2>Cadastrar</h2>
-
       <?php
         $erro_msg = '';
         if (!empty($_GET['erro'])) {
