@@ -1,0 +1,778 @@
+/* cliente.css - Mesclado e Aprimorado */
+
+/* Estilos Globais e Layout Base (Mantidos do seu CSS) */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #E8F1F2;
+    /* Adicionado para melhor rolagem em algumas interações */
+    scroll-behavior: smooth;
+}
+
+textarea { /* Movido para uma seção mais global de formulários */
+    font-family: inherit; /* Garante que textareas usem a fonte do corpo */
+    /* Outros estilos de textarea serão tratados com .cadastro-input ou .form-input */
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; /* Adicionado um pouco mais de padding horizontal */
+    background-color: #1a1a2e;
+    color: white;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    position: sticky; /* Barra pode ficar no topo ao rolar */
+    top: 0;
+    z-index: 1010; /* Acima da sidebar e overlay */
+}
+
+.esquerda, .direita {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Saira Stencil One', sans-serif;
+    margin-right: 10px;
+}
+
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.search-bar { /* Barra de pesquisa principal na barra superior */
+    flex: 1;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+    max-width: 300px;
+    font-size: 14px;
+}
+.search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.3); /* Leve sombra ao focar */
+}
+
+
+.map-btn, .user-btn { /* Estilo unificado para botões da barra */
+    background-color: #FFFFFF;
+    color: #1a1a2e; /* Cor do texto para contraste */
+    padding: 8px 12px;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    cursor: pointer;
+    display: inline-flex; /* Para alinhar ícones e texto */
+    align-items: center;
+    gap: 5px; /* Espaço entre ícone e texto, se houver */
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.map-btn:hover, .user-btn:hover {
+    background-color: #f0f0f0; /* Leve escurecida no hover */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.map-btn {
+    margin-right: 10px;
+}
+
+.icon-space { /* Se usado para ícones dentro dos botões */
+    margin-right: 0; /* Removido, pois o gap no botão já cuida disso */
+    /* Se for um ícone standalone, pode precisar de margem específica */
+}
+
+.content {
+    padding: 20px;
+}
+
+h2 { /* Estilo base para H2, pode ser sobrescrito localmente */
+    margin-top: 30px;
+    margin-bottom: 15px; /* Adicionado margin-bottom */
+    color: #333;
+    font-size: 1.8rem; /* Tamanho padrão para H2 */
+}
+
+/* --- Sidebar e Overlay --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px; /* Aumentado um pouco para mais espaço */
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background-color: white;
+    color: #333;
+    padding: 25px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+    z-index: 1000; /* Abaixo da barra superior, acima do overlay */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1); /* Adicionada sombra sutil */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Para caso o conteúdo da sidebar seja grande */
+}
+
+.sidebar.visible {
+    transform: translateX(0);
+}
+
+.sidebar h2 { /* Título dentro da Sidebar */
+    color: #333;
+    font-size: 22px;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0; /* Borda mais sutil */
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Removido margin padrão de ul */
+}
+
+.sidebar ul li {
+    margin: 0; /* Removido margin, o padding no link cuidará do espaçamento */
+}
+
+.sidebar ul li a {
+    color: #333; /* Cor escura para melhor leitura */
+    text-decoration: none;
+    font-size: 16px; /* Ligeiramente ajustado */
+    display: block; /* Para ocupar toda a largura e facilitar o clique */
+    padding: 12px 10px; /* Padding para área de clique maior */
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a:focus { /* Adicionado estado de foco */
+    background-color: #f0f0f0; /* Cor de fundo no hover/focus */
+    color: #3a86ff; /* Cor do texto no hover/focus */
+    text-decoration: none; /* Remover sublinhado padrão do hover */
+    outline: none;
+}
+
+/* Estilização do Overlay da Sidebar (Adicionado/Aprimorado da sugestão) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Abaixo da sidebar (1000), acima do conteúdo principal */
+    display: none; /* Controlado por JS */
+    cursor: pointer;
+    opacity: 0; /* Para transição suave */
+    transition: opacity 0.3s ease-in-out;
+}
+.overlay.visible { /* Classe para controlar visibilidade e transição */
+    display: block;
+    opacity: 1;
+}
+
+
+/* --- Estrutura de Abas (Tabs) --- */
+.container { /* Container principal para o conteúdo das abas */
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto; /* Aumentado margem superior/inferior */
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tab-container { /* Padding interno para o conteúdo das abas */
+    padding: 20px 25px; /* Aumentado padding horizontal */
+}
+
+.tabs, .tabs-secondary { /* Estilo base para grupo de botões de aba */
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px; /* Espaço após os botões de aba */
+}
+
+.tab-btn, .tab-secondary-btn { /* Estilo base para botões de aba */
+    padding: 12px 18px; /* Aumentado padding */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px; /* Aumentado tamanho da fonte */
+    font-weight: 500;
+    color: #555; /* Cor levemente mais escura */
+    margin-bottom: -1px; /* Para alinhar com a borda inferior */
+    position: relative;
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+.tab-btn:hover, .tab-secondary-btn:hover {
+    color: #3a86ff;
+}
+
+.tab-btn.active, .tab-secondary-btn.active {
+    color: #3a86ff;
+    border-bottom: 2px solid #3a86ff;
+    font-weight: 600; /* Destaque maior para aba ativa */
+}
+.tab-btn:focus, .tab-secondary-btn:focus {
+    outline: none;
+    background-color: rgba(58, 134, 255, 0.05); /* Leve fundo no foco */
+}
+
+
+.tab-content, .tab-secondary-content {
+    display: none;
+    padding: 20px 0;
+}
+.tab-content.active, .tab-secondary-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease; /* Animação suave para conteúdo da aba */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Estilos para Seção de Perfil e Formulários em Geral --- */
+.profile-heading {
+    font-size: 22px; /* Aumentado */
+    font-weight: 600; /* Mais forte */
+    color: #333;
+    margin-bottom: 8px; /* Espaçamento ajustado */
+}
+
+.profile-subheading {
+    font-size: 15px; /* Aumentado */
+    color: #666;
+    margin-bottom: 24px;
+}
+
+/* Estilização dos Campos de Formulário (Unificando .form-group, .form-label, .form-input) */
+.form-group { /* Usado tanto no perfil quanto em outros formulários simples */
+    margin-bottom: 1.5rem; /* 24px se 1rem = 16px, da sugestão */
+    /* display: flex e align-items: center do seu .form-group original pode ser específico para perfil,
+       se precisar de layout lado a lado. Se for label em cima e input embaixo, não precisa de flex aqui.
+       Vou assumir label em cima para um .form-group mais genérico. */
+}
+
+.form-label, .cadastro-label { /* Unificando e melhorando */
+    display: block; /* Garante que o label ocupe a linha */
+    margin-bottom: 0.5rem; /* 8px */
+    font-weight: 500;
+    color: #333;
+    font-size: 14px; /* Consistente com seu .cadastro-label */
+}
+.cadastro-label .required { /* Para asterisco de campo obrigatório */
+    color: #dc3545; /* Vermelho */
+    font-weight: bold;
+    margin-left: 2px;
+}
+
+.form-input-container { /* Usado no seu perfil para input + botão editar */
+    display: flex;
+    align-items: center;
+    flex: 1; /* Para ocupar espaço se .form-group for flex */
+    margin-left: 15px; /* Mantido do seu CSS para layout específico de perfil */
+}
+
+.form-input, .cadastro-input { /* Unificando e melhorando */
+    width: 100%; /* Garante que ocupe toda a largura disponível */
+    padding: 0.75rem; /* 12px (da sugestão, um pouco mais que seus 8px ou 10px) */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem; /* 16px (da sugestão, um pouco maior para inputs) */
+    box-sizing: border-box; /* Importante para padding não aumentar a largura total */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: #fff; /* Fundo branco por padrão */
+}
+.form-input:read-only { /* Estilo para campos de perfil não editáveis */
+    background-color: #f8f9fa; /* Cinza claro (da sugestão) */
+    cursor: default;
+    color: #555;
+}
+.form-input.editable { /* Quando o campo de perfil se torna editável */
+    background-color: #fff;
+    border-color: #3a86ff; /* Sua cor primária */
+}
+
+.form-input:focus,
+.cadastro-input:focus,
+textarea.form-input:focus, /* Aplicando a textareas também */
+textarea.cadastro-input:focus {
+    outline: none;
+    border-color: #3a86ff; /* Sua cor primária */
+    box-shadow: 0 0 0 0.2rem rgba(58, 134, 255, 0.25); /* Sombra de foco na sua cor */
+}
+
+textarea.form-input,
+textarea.cadastro-input {
+    min-height: 100px; /* Altura mínima para textareas */
+    resize: vertical; /* Permitir redimensionamento vertical */
+    line-height: 1.5; /* Melhor legibilidade para múltiplas linhas */
+}
+
+
+.edit-btn { /* Botão de editar campo no perfil */
+    background: none;
+    border: none;
+    padding: 0.5rem; /* 8px */
+    margin-left: 0.5rem; /* 8px (da sugestão, seu era 8px também) */
+    cursor: pointer;
+    color: #3a86ff; /* Sua cor primária */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+.edit-btn:hover, .edit-btn:focus {
+    background-color: rgba(58, 134, 255, 0.1); /* Fundo sutil na sua cor */
+    outline: none;
+}
+.edit-btn svg { /* Garante que o clique seja no botão, não no SVG dentro */
+    pointer-events: none;
+    width: 16px; /* Defina um tamanho para o ícone SVG se necessário */
+    height: 16px;
+}
+
+/* Feedback para campos de formulário individuais (Adicionado da sugestão) */
+.form-feedback {
+    display: block;
+    font-size: 0.875em; /* 14px se base for 16px */
+    margin-top: 0.25rem; /* 4px */
+    min-height: 1.2em; /* Reserva espaço para evitar saltos de layout */
+    color: #dc3545; /* Cor de erro padrão */
+}
+.form-feedback.success {
+    color: #28a745; /* Verde para sucesso */
+}
+/* Você usaria isso no HTML assim:
+<div class="form-group">
+    <label for="meuCampo" class="form-label">Campo</label>
+    <input type="text" id="meuCampo" class="form-input">
+    <div class="form-feedback error">Este campo é obrigatório.</div>
+</div>
+*/
+
+.password-text { /* Texto sobre alteração de senha */
+   font-size: 14px;
+   color: #666;
+   margin-top: 0.5rem; /* Adicionado espaçamento */
+}
+.password-text a.password-link, /* Link para alterar senha */
+.password-link { /* Nome de classe unificado */
+    color: #3a86ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+.password-text a.password-link:hover,
+.password-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 24px 0;
+}
+
+/* Barra de Pesquisa Interna (ex: dentro de abas) */
+.search-container {
+    margin-bottom: 20px;
+}
+.search-input-wrapper {
+    position: relative;
+    max-width: 300px; /* Pode ser ajustado conforme necessário */
+}
+.search-input { /* Input de pesquisa interno */
+    width: 100%;
+    padding: 10px 15px 10px 40px; /* Aumentado padding, espaço para ícone */
+    border: 1px solid #ddd;
+    border-radius: 20px; /* Mais arredondado */
+    background-color: #f5f7fb;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.search-input:focus {
+    outline: none;
+    border-color: #3a86ff;
+    box-shadow: 0 0 0 0.2rem rgba(58, 134, 255, 0.25);
+    background-color: #fff;
+}
+.search-icon { /* Ícone dentro do input de pesquisa */
+    position: absolute;
+    left: 15px; /* Ajustado para novo padding */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    pointer-events: none; /* Para não interferir no clique do input */
+}
+
+
+/* --- Estilos Específicos para Formulários de Cadastro (Melhorias Formulários de Cadastro) --- */
+.form-container { /* Seu container genérico para formulários de cadastro */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px; /* Aumentado padding */
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Sombra mais sutil */
+}
+
+.cadastro-form .form-row { /* Seu .form-row, usado em cadastros */
+    margin-bottom: 1rem; /* 16px (da sugestão) */
+    /* Removido display:flex e flex-direction:column, pois .form-label e .cadastro-input já são block */
+}
+
+.btn-cadastrar { /* Botão principal de formulários de cadastro/envio */
+    background-color: #3a86ff; /* Sua cor primária */
+    color: white;
+    padding: 0.75rem 1.5rem; /* 12px 24px (da sugestão) */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem; /* 16px */
+    font-weight: 500; /* Peso da sugestão (seu era 500 também) */
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    align-self: flex-start; /* Mantido do seu CSS */
+}
+.btn-cadastrar:hover, .btn-cadastrar:focus {
+    background-color: #2a76f0; /* Sua cor primária mais escura (mantido) */
+    box-shadow: 0 2px 8px rgba(58, 134, 255, 0.3);
+    outline: none;
+}
+/* Se quiser um botão verde para "cadastrar" como na sugestão, pode criar uma classe modificadora:
+.btn-cadastrar.btn-success {
+    background-color: #28a745;
+}
+.btn-cadastrar.btn-success:hover, .btn-cadastrar.btn-success:focus {
+    background-color: #218838;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+*/
+
+
+/* --- Área de Upload de Arquivos --- */
+/* Opção 1: Manter seu estilo simples para .file-upload-area (flex container) */
+.file-upload-area { /* Seu estilo original, com pequenas melhorias */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px; /* Mantido */
+    /* Pode adicionar uma borda sutil se desejar */
+    /* border: 1px solid #eee; */
+    /* padding: 10px; */
+    /* border-radius: 4px; */
+}
+
+/* Opção 2: Usar o estilo de "drop zone" da sugestão para .file-upload-area */
+/* Se preferir este, comente a .file-upload-area acima e descomente esta:
+.file-upload-area {
+    border: 2px dashed #3a86ff; // Usando sua cor primária
+    padding: 25px; // Aumentado padding
+    text-align: center;
+    margin-bottom: 15px; // Aumentado margin
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    cursor: pointer; // Para indicar que a área toda é clicável (via label associado ao input)
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.file-upload-area:hover {
+    background-color: #e9ecef;
+    border-color: #2a76f0; // Sua cor primária mais escura
+}
+.file-upload-area p { // Texto dentro da drop zone
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1rem;
+}
+*/
+
+.file-input { /* Input de arquivo real escondido (mantido, essencial) */
+    /* Suas propriedades de esconder já são boas: */
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+    /* display: none; (da sugestão) também funciona, mas seu método é robusto */
+}
+
+.btn-anexo { /* Label estilizada como botão (seu estilo base é bom) */
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 15px; /* Aumentado padding (da sugestão) */
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block; /* Mantido do seu CSS */
+    font-weight: 500; /* Da sugestão */
+    color: #333; /* Cor de texto para contraste */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-anexo:hover {
+    background-color: #e0e0e0; /* Mantido */
+    border-color: #ccc;
+}
+/* Para um botão de anexo com a cor primária (sugestão):
+.btn-anexo.btn-primary {
+    background-color: #3a86ff;
+    color: white;
+    border-color: #3a86ff;
+}
+.btn-anexo.btn-primary:hover {
+    background-color: #2a76f0;
+    border-color: #2a76f0;
+}
+*/
+
+.file-name { /* Nome do arquivo selecionado */
+    display: block; /* Da sugestão, para ficar abaixo se necessário */
+    margin-top: 5px; /* Espaçamento se estiver abaixo */
+    font-style: italic;
+    color: #555;
+    font-size: 0.9em; /* 14.4px se base for 16px (da sugestão) */
+}
+
+/* --- Preview de Imagens --- */
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.image-preview {
+    position: relative; /* Essencial para o botão de remover */
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex; /* Da sugestão, para centralizar placeholder/spinner */
+    justify-content: center;
+    align-items: center;
+    background-color: #e9ecef; /* Fundo para quando a imagem está carregando */
+}
+
+.image-preview img {
+    max-width: 100%; /* Da sugestão */
+    max-height: 100%; /* Da sugestão */
+    display: block; /* Da sugestão */
+    object-fit: cover; /* Garante que a imagem cubra sem distorcer (da sugestão) */
+    /* Suas width/height 100% e object-fit: cover já eram boas */
+}
+
+.image-preview .remove-image { /* Botão de remover imagem do preview */
+    position: absolute;
+    top: 5px; /* Ajustado para mais espaço (sugestão tinha 3px) */
+    right: 5px; /* Ajustado para mais espaço (sugestão tinha 3px) */
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente (sugestão) */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Totalmente redondo (sugestão) */
+    width: 24px; /* Aumentado (sugestão tinha 22px) */
+    height: 24px; /* Aumentado */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px; /* Tamanho do 'X' (sugestão) */
+    line-height: 1; /* Para centralizar o 'X' (sugestão) */
+    transition: background-color 0.2s, transform 0.2s;
+    opacity: 0.8;
+}
+.image-preview .remove-image:hover,
+.image-preview .remove-image:focus {
+    background-color: rgba(220, 53, 69, 0.9); /* Vermelho no hover (sugestão) */
+    transform: scale(1.1); /* Leve aumento no hover */
+    opacity: 1;
+    outline: none;
+}
+/* O conteúdo do botão pode ser um 'X' via text ou um ícone SVG/fonte */
+
+
+/* --- Feedback Global de Cadastro/Formulário (Adicionado da sugestão) --- */
+.cadastro-feedback-area { /* Container para mensagens de sucesso/erro do formulário todo */
+    margin-bottom: 1rem;
+    padding: 1rem; /* Padding interno (sugestão tinha valores fracionados) */
+    border-radius: 4px; /* Arredondamento (sugestão tinha .25rem) */
+    border: 1px solid transparent; /* Borda base */
+}
+.feedback-success { /* Estilo para mensagem de sucesso global */
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde escuro para texto */
+    border-color: #c3e6cb; /* Borda verde */
+    /* padding, margin-bottom, border-radius já estão em .cadastro-feedback-area se aplicado junto,
+       ou podem ser individuais como na sugestão original */
+}
+.feedback-error { /* Estilo para mensagem de erro global */
+    background-color: #f8d7da; /* Vermelho claro */
+    color: #721c24; /* Vermelho escuro para texto */
+    border-color: #f5c6cb; /* Borda vermelha */
+}
+.feedback-error ul { /* Lista de erros dentro da mensagem de erro */
+    margin-top: 0.5rem; /* Espaço acima da lista */
+    margin-bottom: 0;
+    padding-left: 1.5rem; /* Indentação da lista */
+    list-style-type: disc; /* Marcadores padrão */
+}
+.feedback-error ul li {
+    margin-bottom: 0.25rem; /* Espaço entre itens da lista */
+}
+
+
+/* --- Estilização de Selects (Adicionado da sugestão, opcional) --- */
+/* Se você for usar selects customizados */
+.styled-select-wrapper { /* Wrapper para posicionar a seta */
+    position: relative;
+    width: 100%;
+}
+.styled-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 0.75rem 2.5rem 0.75rem 0.75rem; /* Espaço para a seta personalizada */
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    /* A seta SVG como background-image é uma boa técnica, mas pode ser adicionada via pseudo-elemento ::after também */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 0.65em auto;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.styled-select:focus {
+    border-color: #3a86ff; /* Sua cor primária */
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(58, 134, 255, 0.25); /* Sombra na sua cor */
+}
+.styled-select option[disabled] {
+    color: #999;
+}
+
+
+/* --- Responsividade (Media Queries) --- */
+/* Sua media query existente, pode precisar de ajustes ou adições */
+@media (max-width: 768px) {
+    .barra {
+        padding: 10px; /* Reduz padding na barra em telas menores */
+        flex-direction: column; /* Empilha itens da barra se necessário */
+        gap: 15px;
+    }
+    .esquerda, .direita {
+        width: 100%;
+        justify-content: space-between; /* Ajusta distribuição */
+    }
+    .search-bar {
+        max-width: 100%; /* Ocupa largura disponível */
+        margin-top: 5px;
+    }
+
+    .sidebar {
+        width: 220px; /* Pode reduzir um pouco a sidebar */
+    }
+
+    .container {
+        margin: 10px; /* Menos margem lateral */
+        padding: 0;
+    }
+    .tab-container {
+        padding: 15px; /* Menos padding interno */
+    }
+    .tabs, .tabs-secondary {
+        /* Permitir scroll horizontal se as abas não couberem */
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .tab-btn, .tab-secondary-btn {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .profile-heading {
+        font-size: 20px;
+    }
+    .profile-subheading {
+        font-size: 14px;
+    }
+
+    .form-input-container {
+        margin-left: 0; /* Remover margem se empilhado */
+        width: 100%;
+    }
+
+    .cadastro-form {
+        gap: 12px; /* Mantido do seu CSS */
+    }
+    .cadastro-input, .form-input {
+        padding: 0.65rem; /* Ajustado (era 8px, sugestão 0.75rem) */
+        font-size: 0.95rem;
+    }
+    textarea.form-input, textarea.cadastro-input {
+        min-height: 80px;
+    }
+
+    .btn-cadastrar {
+        padding: 0.65rem 1.2rem;
+        font-size: 0.95rem;
+        width: 100%; /* Botão ocupa largura total */
+        text-align: center;
+    }
+
+    .image-preview {
+        width: 80px;
+        height: 80px;
+    }
+    .image-preview .remove-image {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+    }
+    /* Se for a versão flex: */
+    .file-upload-area {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-anexo {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+    .file-name {
+        margin-top: 8px;
+        font-size: 0.85em;
+    }
+}
+
+/* Outras Media Queries para telas menores ou maiores podem ser adicionadas */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 32px;
+    }
+    .sidebar {
+        width: 100%; /* Sidebar ocupa tela toda */
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .tab-btn, .tab-secondary-btn {
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+}
