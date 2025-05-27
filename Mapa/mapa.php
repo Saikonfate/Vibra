@@ -73,6 +73,7 @@ ksort($categorias_db); // Ordena as categorias alfabeticamente pela chave (que Ã
       <?php if ($tipo_usuario_logado === 'admin'): ?>
           <li><a href="../ADM/adm.php" style="color: #c9302c; font-weight: bold;">Painel Admin</a></li>
       <?php endif; ?>
+      <li><a href="../Tela de perfil de usuario/perfil.php">Perfil</a></li>
       <li><a href="../logout.php">Desconectar</a></li>
     </ul>
   </aside>

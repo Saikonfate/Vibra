@@ -64,7 +64,6 @@ function processarUploads($mysqli_conn, $item_id, $item_tipo, $input_name, &$err
             }
         }
 
-        // Usar um nome de variável diferente para o statement dentro desta função
         $stmt_midia_local = $mysqli_conn->prepare("INSERT INTO midia (id_ponto_turistico, id_evento_cultural, tipo, url_arquivo) VALUES (?, ?, ?, ?)");
         if (!$stmt_midia_local) {
             $erros_ref[] = "Erro ao preparar statement para mídia (upload): " . $mysqli_conn->error;
@@ -102,28 +101,27 @@ function processarUploads($mysqli_conn, $item_id, $item_tipo, $input_name, &$err
                 $erros_ref[] = "Erro upload '" . htmlspecialchars($current_original_file_name) . "': cod " . $_FILES[$input_name]['error'][$key];
             }
         }
-        $stmt_midia_local->close(); // Fechar após o loop
+        $stmt_midia_local->close();
     }
 }
-// --- FIM ---
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $form_action = $_POST['form_action'] ?? '';
     $erros_para_sessao = [];
     $feedback_para_sessao = '';
-    $sub_aba_destino = 'form-cidades'; // Padrão
+    $sub_aba_destino = 'form-cidades';
 
     if ($form_action === 'cadastrar_cidade') {
         $sub_aba_destino = 'form-cidades';
         $nome = trim($_POST['nome'] ?? '');
-        $estado = trim($_POST['estado'] ?? ''); // Receberá o valor do select
+        $estado = trim($_POST['estado'] ?? '');
         $pais = trim($_POST['pais'] ?? '');
         $descricao = trim($_POST['descricao'] ?? null);
         $latitude = (isset($_POST['latitude']) && $_POST['latitude'] !== '') ? filter_var($_POST['latitude'], FILTER_VALIDATE_FLOAT) : null;
         $longitude = (isset($_POST['longitude']) && $_POST['longitude'] !== '') ? filter_var($_POST['longitude'], FILTER_VALIDATE_FLOAT) : null;
 
         if (empty($nome)) $erros_para_sessao[] = "Nome da cidade é obrigatório.";
-        if (empty($estado)) $erros_para_sessao[] = "Estado é obrigatório."; // Validação para o select
+        if (empty($estado)) $erros_para_sessao[] = "Estado é obrigatório.";
         if (empty($pais)) $erros_para_sessao[] = "País é obrigatório.";
         if (isset($_POST['latitude']) && $_POST['latitude'] !== '' && $latitude === false) $erros_para_sessao[] = "Latitude da cidade inválida.";
         if (isset($_POST['longitude']) && $_POST['longitude'] !== '' && $longitude === false) $erros_para_sessao[] = "Longitude da cidade inválida.";
@@ -194,7 +192,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $horario_fechamento = trim($_POST['horario_fechamento'] ?? '');
         $local_evento = trim($_POST['local_evento'] ?? '');
         $tipo = trim($_POST['tipo'] ?? '');
-        // Adicionando Latitude e Longitude
         $latitude = (isset($_POST['latitude']) && $_POST['latitude'] !== '') ? filter_var($_POST['latitude'], FILTER_VALIDATE_FLOAT) : null;
         $longitude = (isset($_POST['longitude']) && $_POST['longitude'] !== '') ? filter_var($_POST['longitude'], FILTER_VALIDATE_FLOAT) : null;
         $taxaentrada_str = $_POST['taxaentrada'] ?? '';
@@ -206,10 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (empty($horario_fechamento)) $erros_para_sessao[] = "Data e Horário de fechamento são obrigatórios.";
         if (empty($local_evento)) $erros_para_sessao[] = "Local do evento é obrigatório.";
         if (empty($tipo)) $erros_para_sessao[] = "Tipo do evento é obrigatório.";
-        // Validação para Latitude e Longitude
         if (isset($_POST['latitude']) && $_POST['latitude'] !== '' && $latitude === false) $erros_para_sessao[] = "Latitude do evento inválida.";
         if (isset($_POST['longitude']) && $_POST['longitude'] !== '' && $longitude === false) $erros_para_sessao[] = "Longitude do evento inválida.";
-
         if ($taxaentrada_str !== '' && $taxaentrada === null && $taxaentrada_str !== '0' && $taxaentrada_str !== '0.00') {
             $erros_para_sessao[] = "Taxa de entrada inválida.";
         }
@@ -236,22 +231,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Armazenar feedback na sessão para o PRG
     if (!empty($erros_para_sessao)) {
-        if (!empty($feedback_para_sessao)) { // Se houve sucesso parcial (e.g., cadastro OK, mas erro no upload)
+        if (!empty($feedback_para_sessao)) {
             $feedback_para_sessao .= " No entanto, ocorreram problemas com alguns uploads:<ul>";
             foreach($erros_para_sessao as $erro_item_upload) {
                 $feedback_para_sessao .= "<li>" . htmlspecialchars($erro_item_upload) . "</li>";
             }
             $feedback_para_sessao .= "</ul>";
             $_SESSION['prg_feedback_msg'] = "<div class='feedback-warning'>" . $feedback_para_sessao . "</div>";
-        } else { // Apenas erros
+        } else {
             $_SESSION['prg_errors'] = $erros_para_sessao;
         }
     } elseif (!empty($feedback_para_sessao)) {
         $_SESSION['prg_feedback_msg'] = $feedback_para_sessao;
     }
-
 
     $_SESSION['prg_active_main_tab'] = 'cadastros';
     $_SESSION['prg_active_sub_tab'] = $sub_aba_destino;
@@ -286,10 +279,12 @@ $estados_brasileiros = [
             <a href="../Menu-inicial-cliente/Menu.php" class="logo-link">
                 <div class="logo">V</div>
             </a>
+            <form action="../Menu-inicial-cliente/pesquisar_resultados.php" method="GET" class="search-form">
+                <input type="text" name="termo_pesquisa" placeholder="Pesquisar..." class="search-bar">
+                <button type="submit" style="display: none;"></button> </form>
         </div>
         <div class="direita">
-            <a href="../Mapa/mapa.html">
-                <button class="map-btn" type="button"><i class="fa-regular fa-image"></i> Mapa</button>
+            <a href="../Mapa/mapa.php"> <button class="map-btn" type="button"><i class="fa-regular fa-image"></i> Mapa</button>
             </a>
             <button type="button" class="user-btn" onclick="toggleSidebar()" aria-expanded="false" aria-controls="sidebar">
                 <i class="fa-solid fa-bars icon-space"></i>
@@ -297,7 +292,6 @@ $estados_brasileiros = [
             </button>
         </div>
     </header>
-
     <aside id="sidebar" class="sidebar">
         <h2 id="sidebar-username"><?php echo htmlspecialchars($usuario_nome_atual); ?></h2>
         <ul>
@@ -507,13 +501,12 @@ $estados_brasileiros = [
                                     <select id="id_cidade-evento" name="id_cidade" class="cadastro-input styled-select" required>
                                         <option value="" disabled selected>Selecione a cidade</option>
                                         <?php
-                                        // Reutiliza a query de cidades se ela já foi executada
                                         if (isset($result_cidades_select_ponto) && $result_cidades_select_ponto) {
                                             mysqli_data_seek($result_cidades_select_ponto, 0);
                                             while ($cidade_select_item_evento = mysqli_fetch_assoc($result_cidades_select_ponto)) {
                                                 echo "<option value='" . htmlspecialchars($cidade_select_item_evento['id']) . "'>" . htmlspecialchars($cidade_select_item_evento['nome']) . " - " . htmlspecialchars($cidade_select_item_evento['estado']) . "</option>";
                                             }
-                                        } elseif(isset($mysqli)) { // Caso a query não tenha rodado (pouco provável, mas por segurança)
+                                        } elseif(isset($mysqli)) {
                                             $query_cidades_select_evento = "SELECT id, nome, estado FROM cidade ORDER BY nome ASC";
                                             $result_cidades_select_evento = mysqli_query($mysqli, $query_cidades_select_evento);
                                             if ($result_cidades_select_evento) {

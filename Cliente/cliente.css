@@ -1,31 +1,26 @@
-/* cliente.css - Mesclado e Aprimorado */
-
-/* Estilos Globais e Layout Base (Mantidos do seu CSS) */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #E8F1F2;
-    /* Adicionado para melhor rolagem em algumas interações */
     scroll-behavior: smooth;
 }
 
-textarea { /* Movido para uma seção mais global de formulários */
-    font-family: inherit; /* Garante que textareas usem a fonte do corpo */
-    /* Outros estilos de textarea serão tratados com .cadastro-input ou .form-input */
+textarea { 
+    font-family: inherit; 
 }
 
 .barra {
     display: flex;
     align-items: center;
-    padding: 10px 20px; /* Adicionado um pouco mais de padding horizontal */
+    padding: 10px 20px;
     background-color: #1a1a2e;
     color: white;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: space-between;
-    position: sticky; /* Barra pode ficar no topo ao rolar */
+    position: sticky; 
     top: 0;
-    z-index: 1010; /* Acima da sidebar e overlay */
+    z-index: 1010; 
 }
 
 .esquerda, .direita {
@@ -46,7 +41,7 @@ textarea { /* Movido para uma seção mais global de formulários */
     color: inherit;
 }
 
-.search-bar { /* Barra de pesquisa principal na barra superior */
+.search-bar { 
     flex: 1;
     padding: 8px 15px;
     border-radius: 20px;
@@ -56,13 +51,13 @@ textarea { /* Movido para uma seção mais global de formulários */
 }
 .search-bar:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.3); /* Leve sombra ao focar */
+    box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.3);
 }
 
 
 .map-btn, .user-btn { /* Estilo unificado para botões da barra */
     background-color: #FFFFFF;
-    color: #1a1a2e; /* Cor do texto para contraste */
+    color: #1a1a2e; 
     padding: 8px 12px;
     border: none;
     outline: none;
@@ -70,31 +65,30 @@ textarea { /* Movido para uma seção mais global de formulários */
     cursor: pointer;
     display: inline-flex; /* Para alinhar ícones e texto */
     align-items: center;
-    gap: 5px; /* Espaço entre ícone e texto, se houver */
+    gap: 5px; /* Espaço entre ícone e texto */
     transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 .map-btn:hover, .user-btn:hover {
-    background-color: #f0f0f0; /* Leve escurecida no hover */
+    background-color: #f0f0f0; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .map-btn {
     margin-right: 10px;
 }
 
-.icon-space { /* Se usado para ícones dentro dos botões */
-    margin-right: 0; /* Removido, pois o gap no botão já cuida disso */
-    /* Se for um ícone standalone, pode precisar de margem específica */
+.icon-space { 
+    margin-right: 0; 
 }
 
 .content {
     padding: 20px;
 }
 
-h2 { /* Estilo base para H2, pode ser sobrescrito localmente */
+h2 {
     margin-top: 30px;
-    margin-bottom: 15px; /* Adicionado margin-bottom */
+    margin-bottom: 15px; 
     color: #333;
-    font-size: 1.8rem; /* Tamanho padrão para H2 */
+    font-size: 1.8rem;
 }
 
 /* --- Sidebar e Overlay --- */
@@ -103,7 +97,7 @@ h2 { /* Estilo base para H2, pode ser sobrescrito localmente */
     top: 0;
     right: 0;
     height: 100vh;
-    width: 250px; /* Aumentado um pouco para mais espaço */
+    width: 250px; 
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     background-color: white;
@@ -111,23 +105,23 @@ h2 { /* Estilo base para H2, pode ser sobrescrito localmente */
     padding: 25px;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-    z-index: 1000; /* Abaixo da barra superior, acima do overlay */
-    box-shadow: -5px 0 15px rgba(0,0,0,0.1); /* Adicionada sombra sutil */
+    z-index: 1000; 
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1); 
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* Para caso o conteúdo da sidebar seja grande */
+    overflow-y: auto;
 }
 
 .sidebar.visible {
     transform: translateX(0);
 }
 
-.sidebar h2 { /* Título dentro da Sidebar */
+.sidebar h2 { 
     color: #333;
     font-size: 22px;
     margin: 0 0 20px 0;
     padding-bottom: 10px;
-    border-bottom: 1px solid #e0e0e0; /* Borda mais sutil */
+    border-bottom: 2px solid #e0e0e0; 
     text-align: center;
 }
 
