@@ -1,0 +1,349 @@
+html, body { 
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body { 
+    display: flex;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #1a1a2e;
+    color: white;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Saira Stencil One', sans-serif;
+    margin-right: 10px;
+}
+
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.search-form {
+    flex: 1;
+    max-width: 500px;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
+}
+
+.map-btn {
+    background-color: #FFFFFF;
+    padding: 8px;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-right: 0;
+}
+
+.user-btn {
+    background-color: #FFFFFF;
+    padding: 8px;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.icon-space {
+    margin-right: 8px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.h2 {
+    margin-top: 30px;
+    color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .barra {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .left-section {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    
+    .right-section {
+        gap: 15px;
+    }
+    
+    .search-form {
+        max-width: 300px;
+    }
+}
+
+.map-main-content { 
+    flex-grow: 1; 
+    position: relative; 
+    display: flex; 
+}
+
+#map-container {
+    flex-grow: 1; 
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    background-color: #f0f0f0; 
+}
+
+/* Estilos para as Sidebars (usuário, filtros, detalhes) */
+.sidebar-map {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 180px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background-color: white;
+    color: #333;
+    padding: 25px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+    z-index: 1000;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-map.visible {
+    transform: translateX(0);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .sidebar-map h2 {
+    color: #333;
+    font-size: 22px;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+  }
+  
+  .sidebar-map ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .sidebar-map ul li {
+    margin: 15px 0;
+  }
+  
+  .sidebar-map ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .sidebar-map ul li a:hover {
+    text-decoration: underline;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Abaixo da sidebar */
+    display: none; /* Começa escondido */
+}
+
+/* Sidebar de Filtros de Categoria (esquerda) */
+.category-sidebar { 
+    left: 0;
+    width: 280px;
+    transform: translateX(-100%); 
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.category-sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.category-sidebar .sidebar-header h3 { margin: 0; font-size: 1.3em; color: #333; }
+.category-sidebar .close-btn { background: none; border: none; font-size: 1.6em; cursor: pointer; color: #777; }
+.category-sidebar .close-btn:hover { color: #333; }
+
+#category-list .category-item {
+    padding: 10px 12px; 
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 4px; 
+    margin-bottom: 5px; 
+}
+#category-list .category-item:last-child { border-bottom: none; }
+#category-list .category-item:hover { background-color: #f0f5fa; }
+#category-list .category-item.active {
+    background-color: #e0e8ff;
+    color: #3a86ff; 
+    font-weight: 500;
+}
+#category-list .category-item .category-icon {
+    margin-right: 10px;
+    width: 22px; 
+    text-align: center;
+    color: #555;
+}
+#category-list .category-item.active .category-icon {
+    color: #3a86ff;
+}
+
+
+/* Sidebar para Detalhes do Evento/Ponto (direita) */
+.event-sidebar { 
+    right: 0;
+    width: 330px;
+    transform: translateX(100%); 
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.event-sidebar .sidebar-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;
+}
+.event-sidebar .sidebar-header h3 { margin: 0; font-size: 1.3em; color: #333; } /* event-list-title */
+.event-sidebar .close-btn { background: none; border: none; font-size: 1.6em; cursor: pointer; color: #777; }
+.event-sidebar .close-btn:hover { color: #333; }
+
+#event-info-content { padding-top: 10px; }
+#event-info-content h3 { font-size: 1.4em; margin-top: 0; margin-bottom: 12px; color: #1a1a2e;}
+#event-info-content p { margin-bottom: 8px; line-height: 1.5; color: #555; }
+#event-info-content p strong { color: #333; }
+.view-details-link {
+    display: inline-block; margin-top: 15px; padding: 8px 15px; background-color: #3a86ff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; transition: background-color 0.2s;
+}
+.view-details-link:hover { background-color: #2a76f0; }
+
+
+/* Overlay compartilhado */
+.overlay-map { 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.overlay-map.visible { 
+    display: block;
+    opacity: 1;
+}
+
+/* Botão de filtros na barra superior */
+.filtro-button-mapa { 
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+}
+.filtro-button-mapa i { margin-right: 5px; }
+.filtro-button-mapa:hover { background-color: #e0e0e0; }
+
+@media (max-width: 768px) {
+  .sidebar-map {
+    width: 280px; 
+  }
+  .default-sidebar, .event-sidebar { /* Sidebars da direita */
+    width: 280px; /* largura */
+  }
+  .category-sidebar { /* Sidebar da esquerda */
+    width: 250px;
+  }
+
+  .barra .search-bar {
+    margin: 0 10px;
+    flex-basis: auto; /* Permite que encolha mais */
+    min-width: 120px;
+  }
+   .filtro-button-mapa {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+    .barra .search-bar {
+        display: none; /* Oculta a barra de pesquisa principal em telas muito pequenas */
+    }
+    #map-search-bar { /* Barra de pesquisa específica do mapa */
+        display: block; /* Garante que esta ainda seja visível */
+    }
+     .sidebar-map {
+        width: 100%; /* Sidebars ocupam a tela toda */
+        transform: translateX(-100%); /* Todas começam à esquerda */
+        border-radius: 0;
+    }
+    .default-sidebar, .event-sidebar { /* Sidebars da direita */
+        transform: translateX(100%);
+    }
+    .sidebar-map.visible {
+        transform: translateX(0) !important;
+    }
+     #map-filters-btn { /* Botão de categoria sobre o mapa */
+        top: 70px; /* Ajuste se a barra superior mudar de altura */
+    }
+}

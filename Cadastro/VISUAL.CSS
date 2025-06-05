@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #f0f0f0;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-family: 'Saira Stencil One', sans-serif;
+    font-size: 70px;
+    color: #13293D;
+    margin-bottom: 40px;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    background: #EEEEEE;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.sec-cadastro {
+    width: 60%;
+    padding: 50px 50px;
+    background: #E8F1F2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+
+.sec-cadastro h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #000;
+    text-align: center;
+}
+
+.sec-cadastro form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sec-cadastro label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: -10px;
+}
+
+.sec-cadastro input {
+    padding: 12px 15px;
+    border: none;
+    background: #FFFFFF;
+    font-size: 1rem;
+}
+
+.sec-cadastro button[type="submit"] {
+    background: #13293D;
+    align-self: center;
+    width: 150px;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.sec-cadastro button[type="submit"]:hover {
+    background: #10b981;
+}
+
+.sec-boasvindas {
+    background: #13293D;
+    color: white;
+    width: 40%;
+    padding: 200px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.sec-boasvindas h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.sec-boasvindas p {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.sec-boasvindas button {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sec-boasvindas button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
