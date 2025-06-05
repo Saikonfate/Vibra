@@ -312,7 +312,7 @@ $estados_brasileiros = [
             <li><a href="../logout.php">Desconectar</a></li>
         </ul>
     </aside>
-    <div id="overlay" class="overlay"></div>
+    <div id="overlay" class="overlay" style="display: none;"></div>
 
     <main>
         <div class="container">
