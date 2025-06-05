@@ -134,9 +134,10 @@ if (!empty($filtro_tipo)) {
     $types_eventos .= "s";
 }
 if (!empty($data_sql)) {
-    $where_eventos[] = "DATE(ec.horario_abertura) = ?";
+    $where_eventos[] = "(DATE(ec.horario_abertura) <= ? AND (ec.horario_fechamento IS NULL OR DATE(ec.horario_fechamento) >= ?))";
     $params_eventos[] = $data_sql;
-    $types_eventos .= "s";
+    $params_eventos[] = $data_sql; // Adiciona a data duas vezes para as duas comparações
+    $types_eventos .= "ss";      // 'ss' porque são duas strings de data
 }
 
 // Constrói as cláusulas WHERE
