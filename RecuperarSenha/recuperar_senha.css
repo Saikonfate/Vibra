@@ -1,0 +1,166 @@
+/* Estilos para as páginas de recuperação e redefinição de senha */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f0f0; 
+    color: #333;
+    line-height: 1.6;
+}
+
+header h1 { 
+    font-family: 'Saira Stencil One', sans-serif;
+    font-size: 70px; 
+    color: #13293D;  
+    text-align: center; 
+    padding: 40px 0 20px 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.recovery-container, 
+.reset-container {
+    background-color: #E8F1F2; 
+    padding: 30px 40px;
+    border-radius: 8px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    text-align: center; 
+}
+
+.recovery-container h2,
+.reset-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px; 
+    color: #13293D; 
+}
+
+.recovery-container p,
+.reset-container p {
+    margin-bottom: 20px;
+    color: #555; 
+    font-size: 0.95rem;
+}
+
+.feedback-message {
+    padding: 12px 15px; 
+    margin: 0 auto 20px auto; 
+    border-radius: 5px;
+    border: 1px solid transparent;
+    max-width: 90%; 
+    font-size: 0.9rem;
+}
+
+.feedback-message.success {
+    background-color: #d1e7dd; 
+    color: #0f5132;
+    border-color: #badbcc;
+}
+
+.feedback-message.error {
+    background-color: #f8d7da;
+    color: #842029;
+    border-color: #f5c2c7;
+}
+.feedback-message a { /* Estilo para o link de desenvolvimento */
+     color: #0a58ca;
+     font-weight: bold;
+}
+.feedback-message a:hover {
+     text-decoration: underline;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os elementos do formulário */
+}
+
+form div { /* Para agrupar label e input */
+    text-align: left; /* Alinhar labels à esquerda */
+}
+
+form label {
+    display: block;
+    margin-bottom: 6px; /* Aumentado espaço */
+    font-weight: 500; 
+    color: #495057; 
+    font-size: 0.9rem;
+}
+
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da; /* Borda mais definida */
+    border-radius: 4px;
+    background: #FFFFFF;
+    font-size: 1rem;
+    box-sizing: border-box; /* Importante para o padding não estourar a largura */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+    border-color: #86b7fe; 
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); 
+}
+
+
+form button[type="submit"] {
+    background: #13293D; 
+    color: white;
+    border: none;
+    padding: 12px 20px; 
+    font-weight: bold;
+    border-radius: 25px; 
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s ease;
+    font-size: 1rem;
+    margin-top: 10px; 
+    width: auto; 
+    align-self: center; 
+}
+
+form button[type="submit"]:hover {
+    background: #1B3A57; 
+    transform: translateY(-1px); 
+}
+form button[type="submit"]:active {
+    transform: translateY(0px);
+}
+
+.back-to-login-link { 
+    display: inline-block; 
+    margin-top: 25px;
+    color: #0d6efd; 
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.back-to-login-link:hover {
+    text-decoration: underline;
+}
+
+.feedback-message { padding: 10px; margin-bottom: 15px; border-radius: 4px; text-align: center; border: 1px solid transparent; }
+.feedback-message.success { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
+.feedback-message.error { background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+.sec-login { width: 100%; max-width: 480px; margin: 40px auto; padding: 40px; }
+main { display:flex; flex-direction:column; align-items:center; padding-top: 20px; }
+form label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; text-align:left; }
+form input[type="password"] { margin-bottom: 15px; }
+.feedback-message { padding: 10px; margin-bottom: 15px; border-radius: 4px; text-align: center; border: 1px solid transparent; }
+.feedback-message.success { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
+.feedback-message.error { background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+.sec-login { width: 100%; max-width: 480px; margin: 40px auto; padding: 40px; }
+main { display:flex; flex-direction:column; align-items:center; padding-top: 20px; } 
+form label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; text-align:left; }
+form input[type="email"] { margin-bottom: 20px; }

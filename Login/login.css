@@ -1,0 +1,146 @@
+body {
+    background: #f0f0f0;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-family: 'Saira Stencil One', sans-serif;
+    font-size: 70px;
+    color: #13293D;
+    margin-bottom: 40px;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    background: #EEEEEE;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.sec-cadastro {
+    background: #13293D;
+    color: white;
+    width: 40%;
+    padding: 200px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.sec-cadastro h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.sec-cadastro p {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.sec-cadastro button {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sec-cadastro button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sec-login {
+    width: 50%;
+    padding: 50px 40px;
+    background: #E8F1F2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+
+.sec-login h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0px;
+    color: #000;
+    text-align: center;
+}
+
+.social-icons{
+    align-self: center;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-login{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+
+.sec-login form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sec-login input {
+    padding: 12px 15px;
+    border: none;
+    background: #FFFFFF;
+    font-size: 1rem;
+}
+
+.sec-login button[type="submit"] {
+    background: #13293D;
+    align-self: center;
+    width: 150px;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sec-login button[type="submit"]:hover {
+    background: #10b981;
+}
+
+.sec-login p {
+    font-size: 0.9rem;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.sec-login a {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.sec-login button.mostrar-login {
+    background: none;
+    border: none;
+    color: #18c964;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
